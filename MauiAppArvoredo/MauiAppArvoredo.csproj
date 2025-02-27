@@ -65,12 +65,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Images\" />
 	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="Inicio.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

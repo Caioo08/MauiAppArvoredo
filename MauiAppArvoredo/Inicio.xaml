@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppArvoredo.Inicio"
-             Title="Inicio">
+             Title="">
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#fae6c2" Offset="0.1"/>
@@ -10,16 +10,19 @@
             <GradientStop Color="#b47b39" Offset="1"/>
         </LinearGradientBrush>
     </ContentPage.Background>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="220"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <StackLayout>
-            <Frame HeightRequest="80" WidthRequest="80" Padding="0" Margin="0,100,0,0" HorizontalOptions="Center">
-                <Image Source="logo.png"/>
-            </Frame>
+    <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Center"
+                         Padding="10">
+        <StackLayout Margin="0,0,0,100">
+            <Image Source="logo.png" HeightRequest="375" WidthRequest="320"/>
+            <Button Text="LOGIN" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="login" Clicked="login_Clicked"/>
+            <Button Text="SINCRONIZAR" WidthRequest="275" Margin="15" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="sincronizar" Clicked="sincronizar_Clicked"/>
+            <Button Text="CONFIGURAÇÕES" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="configuracoes" Clicked="configuracoes_Clicked"/>
         </StackLayout>
-    </Grid>
+        <StackLayout>
+            <Image Source="logom.png" WidthRequest="300"/>
+            <Label Text="Sincronizado desde:" HorizontalOptions="Center"/>
+        </StackLayout>
+
+    </VerticalStackLayout>
+    
 </ContentPage>
