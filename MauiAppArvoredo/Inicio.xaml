@@ -13,7 +13,7 @@
     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"
                          Padding="10">
         <StackLayout Margin="0,0,0,0">
-            <Image Source="logo.png" HeightRequest="375" WidthRequest="320"/>
+            <Image Source="logo.png" HeightRequest="300" WidthRequest="320" Margin="0,0,0,10"/>
             <Button Text="LOGIN" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="login" Clicked="login_Clicked"/>
             <Button Text="SINCRONIZAR" WidthRequest="275" Margin="15" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="sincronizar" Clicked="sincronizar_Clicked"/>
             <Button Text="CONFIGURAÇÕES" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="configuracoes" Clicked="configuracoes_Clicked"/>
@@ -24,5 +24,4 @@
         </StackLayout>
 
     </VerticalStackLayout>
-    
 </ContentPage>
