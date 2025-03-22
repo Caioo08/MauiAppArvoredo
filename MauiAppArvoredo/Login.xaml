@@ -4,7 +4,8 @@
              x:Class="MauiAppArvoredo.Login"
              Title=""
              NavigationPage.HasNavigationBar="False"
-             NavigationPage.HasBackButton="False">
+             NavigationPage.HasBackButton="False" 
+             >
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#fae6c2" Offset="0.1"/>
@@ -12,14 +13,14 @@
             <GradientStop Color="#b47b39" Offset="1"/>
         </LinearGradientBrush>
     </ContentPage.Background>
-    <VerticalStackLayout VerticalOptions="Center"
-                         Padding="10">
+    <VerticalStackLayout VerticalOptions="Center">
         <StackLayout Margin="0,0,0,100" HorizontalOptions="Center">
-            <Image Source="simbolo.png" HeightRequest="375" WidthRequest="180"/>
-            <Label Text="DIGITE SEU NOME DE USUÁRIO:"  FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01"/>
-            <Entry IsPassword="False" Margin="0,20,0,20" BackgroundColor="#efd4ac"/>
+            <Image Source="simbolo.png" HeightRequest="320" WidthRequest="180" Margin="0"/>
+            <Label Text="DIGITE SEU NOME DE USUÁRIO:" HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" />
+            <Entry IsPassword="False" Margin="0,20,0,20" BackgroundColor="#efd4ac" WidthRequest="330"/>
             <Label Text="DIGITE SUA SENHA:" HorizontalOptions="Center" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01"/>
-            <Entry IsPassword="True" Margin="0,20,0,0" BackgroundColor="#efd4ac"/>
+            <Entry IsPassword="True" Margin="0,20,0,0" BackgroundColor="#efd4ac" Keyboard="Numeric" WidthRequest="330"/>
+            <Button Text="ENTRAR" WidthRequest="330" HeightRequest="57" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" Margin="0,30,0,0"/>
         </StackLayout>
     </VerticalStackLayout>
-</ContentPage>
+</ContentPage>  
