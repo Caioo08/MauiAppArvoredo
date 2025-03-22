@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiAppArvoredo.TelaInicial"
+             Title=""
+             Shell.NavBarIsVisible="False">
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#fae6c2" Offset="0.1"/>
+            <GradientStop Color="#c68f56" Offset="0.5"/>
+            <GradientStop Color="#b47b39" Offset="1"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"
+                     Padding="10">
+        <StackLayout Margin="0,0,0,0">
+            <Label Text="SEJA BEM VINDO" HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="40" TextColor="#391b01" Margin="0,0,0,80"/>
+            <Button Text="ESTOQUE" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30"/>
+            <Button Text="PEDIDOS" WidthRequest="275" Margin="30" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30"/>
+            <Button Text="SAIR" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="sair" Clicked="sair_Clicked"/>
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>
