@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppArvoredo.Login"
+             xmlns:local="clr-namespace:MauiAppArvoredo"
              Shell.NavBarIsVisible="False"
              NavigationPage.BackButtonTitle="Empty">
     <ContentPage.Background>
@@ -16,7 +17,7 @@
         <StackLayout Margin="0,0,0,100" HorizontalOptions="Center">
             <Image Source="simbolo.png" HeightRequest="320" WidthRequest="180" Margin="0"/>
             <Label Text="DIGITE SEU NOME DE USUÁRIO:" HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" />
-            <Entry IsPassword="False" Margin="0,20,0,20" BackgroundColor="#efd4ac" WidthRequest="330"/>            
+            <local:BorderlessEntry IsPassword="False" Margin="0,20,0,20" BackgroundColor="#efd4ac" WidthRequest="330"/> 
             <Label Text="DIGITE SUA SENHA:" HorizontalOptions="Center" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01"/>
             <Entry IsPassword="True" Margin="0,20,0,0" BackgroundColor="#efd4ac" Keyboard="Numeric" WidthRequest="330"/>
             <Button Text="ENTRAR" WidthRequest="330" HeightRequest="57" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" Margin="0,30,0,0" x:Name="entrar" Clicked="entrar_Clicked"/>
