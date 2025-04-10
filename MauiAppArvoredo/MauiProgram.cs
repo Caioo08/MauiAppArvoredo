@@ -1,24 +1,35 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MauiAppArvoredo.Platforms.Android.Handlers;
+using MauiAppArvoredo.Controls;
+using Microsoft.Extensions.Logging;
 
-namespace MauiAppArvoredo;
-
-public static class MauiProgram
+namespace MauiAppArvoredo
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+    public static class MauiProgram
+    {
+        public static MauiApp CreateMauiApp()
+        {
+            var builder = MauiApp.CreateBuilder();
+            builder
+                .UseMauiApp<App>()
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                });
 
-#if DEBUG
-		builder.Logging.AddDebug();
+            // Registro do handler personalizado
+#if ANDROID
+            Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("CustomEntryMapper", (handler, view) =>
+            {
+                if (view is CustomEntry customEntry)
+                {
+                    // Aplica o handler personalizado
+                    CustomEntryHandler.MapBackground((CustomEntryHandler)handler, customEntry);
+                }
+            });
 #endif
 
-		return builder.Build();
-	}
+            return builder.Build();
+        }
+    }
 }
