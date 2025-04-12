@@ -16,7 +16,7 @@
         <StackLayout Margin="0,100,0,0">
             <Label Text="SEJA BEM VINDO" HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="40" TextColor="#391b01" Margin="0,0,0,80"/>
             <Button Text="ESTOQUE" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="estoque" Clicked="estoque_Clicked"/>
-            <Button Text="PEDIDOS" WidthRequest="275" Margin="30" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30"/>
+            <Button Text="PEDIDOS" WidthRequest="275" Margin="30" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="pedidos" Clicked="pedidos_Clicked"/>
             <Button Text="SAIR" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="sair" Clicked="sair_Clicked"/>
             
         </StackLayout>

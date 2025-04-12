@@ -11,14 +11,14 @@
             <GradientStop Color="#b47b39" Offset="0.7"/>
         </LinearGradientBrush>
     </ContentPage.Background>
-    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+    <VerticalStackLayout VerticalOptions="Center">
         <Button ImageSource="seta.png" BackgroundColor="Transparent" WidthRequest="60" HorizontalOptions="Start" x:Name="voltar" Clicked="voltar_Clicked" Margin="3,0,0,0"/>
         <StackLayout Margin="0,0,0,0" HorizontalOptions="Center">
             <Image Source="simbolo.png" HeightRequest="320" WidthRequest="180" Margin="0"/>
             <Label Text="DIGITE SEU NOME DE USUÁRIO:" HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" />
-            <Entry IsPassword="False" Margin="0,10,0,20" BackgroundColor="#efd4ac" WidthRequest="330"/> 
+            <Entry IsPassword="False" Margin="0,10,0,20" BackgroundColor="#efd4ac" WidthRequest="330" x:Name="username"/> 
             <Label Text="DIGITE SUA SENHA:" HorizontalOptions="Center" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01"/>
-            <Entry IsPassword="True" Margin="0,10,0,0" BackgroundColor="#efd4ac" Keyboard="Numeric" WidthRequest="330"/>
+            <Entry IsPassword="True" Margin="0,10,0,0" BackgroundColor="#efd4ac" Keyboard="Numeric" WidthRequest="330" x:Name="password"/>
             <Button Text="ENTRAR" WidthRequest="330" HeightRequest="57" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" Margin="0,25,0,0" x:Name="entrar" Clicked="entrar_Clicked"/>
             <Image Source="logom.png" WidthRequest="300" Margin="0,15,0,0" />
         </StackLayout>

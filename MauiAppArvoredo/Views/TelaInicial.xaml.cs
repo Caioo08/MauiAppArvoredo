@@ -36,4 +36,16 @@ public partial class TelaInicial : ContentPage
             DisplayAlert("Não encontrado", ex.Message, "OK");
         }
     }
+
+    private void pedidos_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Navigation.PushAsync(new Pedidos());
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Não encontrado", ex.Message, "OK");
+        }
+    }
 }

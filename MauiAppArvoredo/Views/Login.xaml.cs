@@ -5,7 +5,8 @@ public partial class Login : ContentPage
 	public Login()
 	{
 		InitializeComponent();
-	}
+        
+    }
 
     private void entrar_Clicked(object sender, EventArgs e)
     {

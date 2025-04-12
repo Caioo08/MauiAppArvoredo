@@ -74,6 +74,9 @@
 	  <MauiXaml Update="Views\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Pedidos.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\TelaInicial.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

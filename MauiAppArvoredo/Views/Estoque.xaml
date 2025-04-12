@@ -15,13 +15,13 @@
             <Button ImageSource="seta.png" BackgroundColor="Transparent" WidthRequest="60" HorizontalOptions="Start" x:Name="voltar" Clicked="voltar_Clicked" Margin="3,0,0,0"/>
         </StackLayout>
         <StackLayout Margin="0,100,0,0">
-            <Label Text="ESTOQUE"  HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="40" TextColor="#391b01" Margin="0,0,0,60"/>
-            <Button WidthRequest="320" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Eucalipto" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="eucalipto" Clicked="eucalipto_Clicked"/>
-            <Button WidthRequest="320" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Peroba" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="peroba" Clicked="peroba_Clicked"/>
-            <Button WidthRequest="320" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Pau Brasil" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="pau_brasil" Clicked="pau_brasil_Clicked"/>
-            <Button WidthRequest="320" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Carvalho" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="carvalho" Clicked="carvalho_Clicked"/>
-            <Button WidthRequest="320" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Jatoba" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="jatoba" Clicked="jatoba_Clicked"/>
-            <Button WidthRequest="320" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Nogueira" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="nogueira" Clicked="nogueira_Clicked"/>
+            <Label Text="ESTOQUE"  HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="40" TextColor="#391b01" Margin="0,0,0,50"/>
+            <Button WidthRequest="320" HeightRequest="60" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Eucalipto" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="eucalipto" Clicked="eucalipto_Clicked"/>
+            <Button WidthRequest="320" HeightRequest="60" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Peroba" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="peroba" Clicked="peroba_Clicked"/>
+            <Button WidthRequest="320" HeightRequest="60" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Pau Brasil" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="pau_brasil" Clicked="pau_brasil_Clicked"/>
+            <Button WidthRequest="320" HeightRequest="60" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Carvalho" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="carvalho" Clicked="carvalho_Clicked"/>
+            <Button WidthRequest="320" HeightRequest="60" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Jatoba" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="jatoba" Clicked="jatoba_Clicked"/>
+            <Button WidthRequest="320" HeightRequest="60" BackgroundColor="#efd4ac" Margin="0,10,0,0" Text="Nogueira" FontFamily="OpenSans-Semibold" FontSize="20" TextColor="#391b01" x:Name="nogueira" Clicked="nogueira_Clicked"/>
             
         </StackLayout>
     </VerticalStackLayout>
