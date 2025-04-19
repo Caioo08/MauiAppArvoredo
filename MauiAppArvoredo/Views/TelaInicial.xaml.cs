@@ -4,11 +4,20 @@ namespace MauiAppArvoredo;
 
 public partial class TelaInicial : ContentPage
 {
-	public TelaInicial()
+    public TelaInicial()
 	{
 		InitializeComponent();
 
- 
+        var login = new Login();
+
+        if(login.acessoadmin == true)
+        {
+            DisplayAlert("Acesso", "Acesso de administrador", "OK");
+        }
+        else if(login.acessoadmin == false)
+        {
+            DisplayAlert("OK", "", "OK");
+        }
     }
 
     private void sair_Clicked(object sender, EventArgs e)
@@ -21,6 +30,8 @@ public partial class TelaInicial : ContentPage
         {
             DisplayAlert("Não encontrado", ex.Message, "OK");
         }
+        var login = new Login();
+        login.acessoadmin = false;
     }
 
     private void estoque_Clicked(object sender, EventArgs e)

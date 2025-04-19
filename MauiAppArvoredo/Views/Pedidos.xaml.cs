@@ -1,3 +1,7 @@
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics.Text;
+using static System.Net.Mime.MediaTypeNames;
+
 namespace MauiAppArvoredo.Views;
 
 public partial class Pedidos : ContentPage
@@ -18,4 +22,5 @@ public partial class Pedidos : ContentPage
 			DisplayAlert("Página não encontrada", ex.Message, "OK");
 		}
     }
+
 }
