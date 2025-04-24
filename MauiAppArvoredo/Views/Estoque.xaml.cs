@@ -2,12 +2,11 @@ namespace MauiAppArvoredo.Views;
 
 public partial class Estoque : ContentPage
 {
-    private bool _isExpanded;
-    private bool frameVisible = false;
+    private List<Button> todosBotoes = new List<Button>();
     public Estoque()
 	{
 		InitializeComponent();
-        _isExpanded = false;
+        CriarBotoesDinamicamente();
     }
 
     private void voltar_Clicked(object sender, EventArgs e)
@@ -22,153 +21,199 @@ public partial class Estoque : ContentPage
         }
     }
 
-    private void eucalipto_Clicked(object sender, EventArgs e)
+    private void CriarBotoesDinamicamente()
     {
-        frameVisible = !frameVisible;
-        expansive_eucalipto.IsVisible = frameVisible;
-        if (_isExpanded == false)
+        // Exemplo de uma lista de dados para criar botões
+        string[] opcoes = { "Eucalipto", "Peroba", "Pau Brasil", "Carvalho", "Jatoba", "Nogueira" };
+
+        // Cria botões em laço com base na lista
+        for (int i = 0; i < opcoes.Length; i++)
         {
-            _isExpanded = true;
-            expansive_eucalipto.IsVisible = frameVisible;
-            peroba.IsVisible = false;
-            pau_brasil.IsVisible = false;
-            carvalho.IsVisible = false;
-            jatoba.IsVisible = false;
-            nogueira.IsVisible = false;
-        }
-        else if(_isExpanded == true)
-        {
-            _isExpanded = false;
-            peroba.IsVisible = true;
-            pau_brasil.IsVisible = true;
-            carvalho.IsVisible = true;
-            jatoba.IsVisible = true;
-            nogueira.IsVisible = true;
+            // Cria uma nova instância de botão
+            Button novoBtn = new Button
+            {
+                Text = opcoes[i],
+                BackgroundColor = Color.FromArgb("#efd4ac"),
+                TextColor = Color.FromArgb("#391b01"),
+                CornerRadius = 8,
+                WidthRequest = 320,
+                HeightRequest = 60,
+                FontSize = 20,
+                Margin = new Thickness(0, 5)
+            };
+
+            // Adiciona um id ao botão para identificação
+            int index = i; // Capturar o valor de i para o closure do evento
+
+            // Adiciona o evento de clique
+            novoBtn.Clicked += (sender, e) =>
+            {
+                EsconderBotoes();
+                BotaoClicado(sender, index);
+            };
+
+            todosBotoes.Add(novoBtn);
+
+            // Adiciona o botão ao container
+            myLayout.Add(novoBtn);
         }
     }
-
-    private void peroba_Clicked(object sender, EventArgs e)
+    private void EsconderBotoes()
     {
-        frameVisible = !frameVisible;
-        expansive_peroba.IsVisible = frameVisible;
-        if (_isExpanded == false)
+        // Esconde todos os botões
+        foreach (Button btn in todosBotoes)
         {
-            _isExpanded = true;
-            expansive_peroba.IsVisible = frameVisible;
-            eucalipto.IsVisible = false;
-            pau_brasil.IsVisible = false;
-            carvalho.IsVisible = false;
-            jatoba.IsVisible = false;
-            nogueira.IsVisible = false;
+            btn.IsVisible = false;
         }
-        else if (_isExpanded == true)
-        {
-            _isExpanded = false;
-            eucalipto.IsVisible = true;
-            pau_brasil.IsVisible = true;
-            carvalho.IsVisible = true;
-            jatoba.IsVisible = true;
-            nogueira.IsVisible = true;
-        }
+        estoque.IsVisible = false;
     }
 
-    private void pau_brasil_Clicked(object sender, EventArgs e)
+    private void MostrarBotoes()
     {
-        frameVisible = !frameVisible;
-        expansive_pau_brasil.IsVisible = frameVisible;
-        if (_isExpanded == false)
+        // Torna todos os botões visíveis novamente
+        foreach (Button btn in todosBotoes)
         {
-            _isExpanded = true;
-            expansive_pau_brasil.IsVisible = frameVisible;
-            peroba.IsVisible = false;
-            eucalipto.IsVisible = false;
-            carvalho.IsVisible = false;
-            jatoba.IsVisible = false;
-            nogueira.IsVisible = false;
+            btn.IsVisible = true;
         }
-        else if (_isExpanded == true)
-        {
-            _isExpanded = false;
-            peroba.IsVisible = true;
-            eucalipto.IsVisible = true;
-            carvalho.IsVisible = true;
-            jatoba.IsVisible = true;
-            nogueira.IsVisible = true;
-        }
+        estoque.IsVisible = true;
     }
 
-    private void carvalho_Clicked(object sender, EventArgs e)
+    private void BotaoClicado(object sender, int index)
     {
-        frameVisible = !frameVisible;
-        expansive_carvalho.IsVisible = frameVisible;
-        if (_isExpanded == false)
-        {
-            _isExpanded = true;
-            expansive_carvalho.IsVisible = frameVisible;
-            peroba.IsVisible = false;
-            pau_brasil.IsVisible = false;
-            eucalipto.IsVisible = false;
-            jatoba.IsVisible = false;
-            nogueira.IsVisible = false;
-        }
-        else if (_isExpanded == true)
-        {
-            _isExpanded = false;
-            peroba.IsVisible = true;
-            pau_brasil.IsVisible = true;
-            eucalipto.IsVisible = true;
-            jatoba.IsVisible = true;
-            nogueira.IsVisible = true;
-        }
-    }
+        Button botaoClicado = (Button)sender;
 
-    private void jatoba_Clicked(object sender, EventArgs e)
-    {
-        frameVisible = !frameVisible;
-        expansive_jatoba.IsVisible = frameVisible;
-        if (_isExpanded == false)
-        {
-            _isExpanded = true;
-            expansive_jatoba.IsVisible = frameVisible;
-            peroba.IsVisible = false;
-            pau_brasil.IsVisible = false;
-            carvalho.IsVisible = false;
-            eucalipto.IsVisible = false;
-            nogueira.IsVisible = false;
-        }
-        else if (_isExpanded == true)
-        {
-            _isExpanded = false;
-            peroba.IsVisible = true;
-            pau_brasil.IsVisible = true;
-            carvalho.IsVisible = true;
-            eucalipto.IsVisible = true;
-            nogueira.IsVisible = true;
-        }
-    }
 
-    private void nogueira_Clicked(object sender, EventArgs e)
-    {
-        frameVisible = !frameVisible;
-        expansive_nogueira.IsVisible = frameVisible;
-        if (_isExpanded == false)
+        // Criar um StackLayout personalizado
+        StackLayout expandableSection = new StackLayout
         {
-            _isExpanded = true;
-            expansive_nogueira.IsVisible = frameVisible;
-            peroba.IsVisible = false;
-            pau_brasil.IsVisible = false;
-            carvalho.IsVisible = false;
-            jatoba.IsVisible = false;
-            eucalipto.IsVisible = false;
-        }
-        else if (_isExpanded == true)
+            HorizontalOptions = LayoutOptions.Center,
+            BackgroundColor = Color.FromArgb("#efd4ac"),
+            WidthRequest = 320,
+            Margin = new Thickness(0, -10, 0, 0)
+        };
+
+        // Adicionar itens ao StackLayout
+        // Cabeçalho
+        HorizontalStackLayout header = new HorizontalStackLayout
         {
-            _isExpanded = false;
-            peroba.IsVisible = true;
-            pau_brasil.IsVisible = true;
-            carvalho.IsVisible = true;
-            jatoba.IsVisible = true;
-            eucalipto.IsVisible = true;
-        }
+            HorizontalOptions = LayoutOptions.Center
+        };
+
+        header.Add(new Label
+        {
+            Text = $"Estoque de {botaoClicado.Text}",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            FontFamily = "Gagalin-Regular",
+            HorizontalOptions = LayoutOptions.Center,
+            FontAttributes = FontAttributes.Bold
+        });
+
+        expandableSection.Add(header);
+
+        // Linha 1: Ripa
+        HorizontalStackLayout linha1 = new HorizontalStackLayout
+        {
+            HorizontalOptions = LayoutOptions.Center
+        };
+
+        linha1.Add(new Label
+        {
+            Text = "Ripa",
+            FontFamily = "Gagalin-Regular",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            HorizontalOptions = LayoutOptions.Start,
+            Margin = new Thickness(0, 0, 100, 0)
+        });
+
+        linha1.Add(new Label
+        {
+            Text = "QTD",
+            FontFamily = "Gagalin-Regular",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            HorizontalOptions = LayoutOptions.End
+        });
+
+        expandableSection.Add(linha1);
+
+        // Linha 2: Viga
+        HorizontalStackLayout linha2 = new HorizontalStackLayout
+        {
+            HorizontalOptions = LayoutOptions.Center
+        };
+
+        linha2.Add(new Label
+        {
+            Text = "Viga",
+            FontFamily = "Gagalin-Regular",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            HorizontalOptions = LayoutOptions.Start,
+            Margin = new Thickness(0, 0, 100, 0)
+        });
+
+        linha2.Add(new Label
+        {
+            Text = "QTD",
+            FontFamily = "Gagalin-Regular",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            HorizontalOptions = LayoutOptions.End
+        });
+
+        expandableSection.Add(linha2);
+
+        // Linha 3: Tábua
+        HorizontalStackLayout linha3 = new HorizontalStackLayout
+        {
+            HorizontalOptions = LayoutOptions.Center
+        };
+
+        linha3.Add(new Label
+        {
+            Text = "Tábua",
+            FontFamily = "Gagalin-Regular",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            HorizontalOptions = LayoutOptions.Start,
+            Margin = new Thickness(0, 0, 80, 0)
+        });
+
+        linha3.Add(new Label
+        {
+            Text = "QTD",
+            FontFamily = "Gagalin-Regular",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            HorizontalOptions = LayoutOptions.End
+        });
+
+        expandableSection.Add(linha3);
+
+        // Adicionar botão de fechar
+        Button btnFechar = new Button
+        {
+            Text = "Fechar",
+            BackgroundColor = Color.FromArgb("#391b01"),
+            TextColor = Colors.White,
+            HorizontalOptions = LayoutOptions.Center,
+            Padding = new Thickness(10, 5),
+            WidthRequest = 150,
+            Margin = new Thickness(0, 10, 0, 5)
+        };
+
+        btnFechar.Clicked += (s, e) =>
+        {
+            // Remover o StackLayout quando o botão de fechar for clicado
+            myLayout.Remove(expandableSection);
+            MostrarBotoes();
+        };
+
+        expandableSection.Add(btnFechar);
+
+        // Adicionar o StackLayout ao mesmo container onde os botões estão
+        myLayout.Add(expandableSection);
     }
 }
