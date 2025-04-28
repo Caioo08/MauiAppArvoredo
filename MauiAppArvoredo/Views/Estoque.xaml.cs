@@ -55,7 +55,7 @@ public partial class Estoque : ContentPage
             todosBotoes.Add(novoBtn);
 
             // Adiciona o botão ao container
-            myLayout.Add(novoBtn);
+            StackPrincipal.Add(novoBtn);
         }
     }
     private void EsconderBotoes()
@@ -112,12 +112,12 @@ public partial class Estoque : ContentPage
         expandableSection.Add(header);
 
         // Linha 1: Ripa
-        HorizontalStackLayout linha1 = new HorizontalStackLayout
+        HorizontalStackLayout linharipa = new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center
         };
 
-        linha1.Add(new Label
+        linharipa.Add(new Label
         {
             Text = "Ripa",
             FontFamily = "Gagalin-Regular",
@@ -127,7 +127,7 @@ public partial class Estoque : ContentPage
             Margin = new Thickness(0, 0, 100, 0)
         });
 
-        linha1.Add(new Label
+        linharipa.Add(new Label
         {
             Text = "QTD",
             FontFamily = "Gagalin-Regular",
@@ -136,15 +136,15 @@ public partial class Estoque : ContentPage
             HorizontalOptions = LayoutOptions.End
         });
 
-        expandableSection.Add(linha1);
+        expandableSection.Add(linharipa);
 
         // Linha 2: Viga
-        HorizontalStackLayout linha2 = new HorizontalStackLayout
+        HorizontalStackLayout linhaviga = new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center
         };
 
-        linha2.Add(new Label
+        linhaviga.Add(new Label
         {
             Text = "Viga",
             FontFamily = "Gagalin-Regular",
@@ -154,7 +154,7 @@ public partial class Estoque : ContentPage
             Margin = new Thickness(0, 0, 100, 0)
         });
 
-        linha2.Add(new Label
+        linhaviga.Add(new Label
         {
             Text = "QTD",
             FontFamily = "Gagalin-Regular",
@@ -163,15 +163,15 @@ public partial class Estoque : ContentPage
             HorizontalOptions = LayoutOptions.End
         });
 
-        expandableSection.Add(linha2);
+        expandableSection.Add(linhaviga);
 
         // Linha 3: Tábua
-        HorizontalStackLayout linha3 = new HorizontalStackLayout
+        HorizontalStackLayout linhatabua = new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center
         };
 
-        linha3.Add(new Label
+        linhatabua.Add(new Label
         {
             Text = "Tábua",
             FontFamily = "Gagalin-Regular",
@@ -181,7 +181,7 @@ public partial class Estoque : ContentPage
             Margin = new Thickness(0, 0, 80, 0)
         });
 
-        linha3.Add(new Label
+        linhatabua.Add(new Label
         {
             Text = "QTD",
             FontFamily = "Gagalin-Regular",
@@ -190,7 +190,7 @@ public partial class Estoque : ContentPage
             HorizontalOptions = LayoutOptions.End
         });
 
-        expandableSection.Add(linha3);
+        expandableSection.Add(linhatabua);
 
         // Adicionar botão de fechar
         Button btnFechar = new Button
@@ -207,13 +207,13 @@ public partial class Estoque : ContentPage
         btnFechar.Clicked += (s, e) =>
         {
             // Remover o StackLayout quando o botão de fechar for clicado
-            myLayout.Remove(expandableSection);
+            StackPrincipal.Remove(expandableSection);
             MostrarBotoes();
         };
 
         expandableSection.Add(btnFechar);
 
         // Adicionar o StackLayout ao mesmo container onde os botões estão
-        myLayout.Add(expandableSection);
+        StackPrincipal.Add(expandableSection);
     }
 }
