@@ -1,3 +1,5 @@
+
+
 namespace MauiAppArvoredo.Views;
 
 public partial class Estoque : ContentPage
@@ -204,6 +206,17 @@ public partial class Estoque : ContentPage
             Margin = new Thickness(0, 10, 0, 5)
         };
 
+        Button btnEditar = new Button
+        {
+            Text = "Editar",
+            BackgroundColor = Color.FromArgb("#391b01"),
+            TextColor = Colors.White,
+            HorizontalOptions = LayoutOptions.Center,
+            Padding = new Thickness(10, 5),
+            WidthRequest = 150,
+            Margin = new Thickness(0, 10, 0, 5)
+        };
+
         btnFechar.Clicked += (s, e) =>
         {
             // Remover o StackLayout quando o botão de fechar for clicado
@@ -212,6 +225,7 @@ public partial class Estoque : ContentPage
         };
 
         expandableSection.Add(btnFechar);
+        expandableSection.Add(btnEditar);
 
         // Adicionar o StackLayout ao mesmo container onde os botões estão
         StackPrincipal.Add(expandableSection);

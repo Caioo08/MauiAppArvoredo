@@ -1,37 +1,45 @@
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics.Text;
 using static System.Net.Mime.MediaTypeNames;
+using System.Linq;
 
 namespace MauiAppArvoredo.Views;
 
 public partial class Pedidos : ContentPage
 {
-
     private List<Button> todosBotoes = new List<Button>();
-    public Pedidos()
-	{
-		InitializeComponent();
-        CriarBotoesDinamicamente();
+    // Array de opções que será modificado quando um item for removido
+    private string[] opcoes = { "João", "Pedro", "Marcos", "Tiago", "Lucas" };
 
-	}
+    public Pedidos()
+    {
+        InitializeComponent();
+        CriarBotoesDinamicamente();
+    }
 
     private void voltar_Clicked(object sender, EventArgs e)
     {
-		try
-		{
-			Navigation.PushAsync(new TelaInicial());
-		}
-		catch(Exception ex)
-		{
-			DisplayAlert("Página não encontrada", ex.Message, "OK");
-		}
+        try
+        {
+            Navigation.PushAsync(new TelaInicial());
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Página não encontrada", ex.Message, "OK");
+        }
     }
-
 
     private void CriarBotoesDinamicamente()
     {
-        // Exemplo de uma lista de dados para criar botões
-        string[] opcoes = { "João", "Pedro", "Marcos", "Tiago", "Lucas" };
+        // Limpa a lista de botões anterior, caso haja recriação
+        todosBotoes.Clear();
+
+        // Limpa o layout para recriar os botões
+        foreach (var child in myLayout.Children.ToList())
+        {
+            if (child is Button)
+                myLayout.Remove(child);
+        }
 
         // Cria botões em laço com base na lista
         for (int i = 0; i < opcoes.Length; i++)
@@ -65,6 +73,7 @@ public partial class Pedidos : ContentPage
             myLayout.Add(novoBtn);
         }
     }
+
     private void EsconderBotoes()
     {
         // Esconde todos os botões
@@ -83,6 +92,16 @@ public partial class Pedidos : ContentPage
             btn.IsVisible = true;
         }
         pedido.IsVisible = true;
+    }
+
+    // Nova função para remover um item da array
+    private void RemoverItemDoArray(string itemParaRemover)
+    {
+        // Remove o item usando LINQ e converte de volta para array
+        opcoes = opcoes.Where(item => item != itemParaRemover).ToArray();
+
+        // Recria os botões com o array atualizado
+        CriarBotoesDinamicamente();
     }
 
     private void BotaoClicado(object sender, int index)
@@ -118,12 +137,12 @@ public partial class Pedidos : ContentPage
         expandableSection.Add(header);
 
         // Linha 1: Ripa
-        HorizontalStackLayout linha1 = new HorizontalStackLayout
+        HorizontalStackLayout linharipa = new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center
         };
 
-        linha1.Add(new Label
+        linharipa.Add(new Label
         {
             Text = "Ripa",
             FontFamily = "Gagalin-Regular",
@@ -133,7 +152,7 @@ public partial class Pedidos : ContentPage
             Margin = new Thickness(0, 0, 100, 0)
         });
 
-        linha1.Add(new Label
+        linharipa.Add(new Label
         {
             Text = "QTD",
             FontFamily = "Gagalin-Regular",
@@ -142,15 +161,15 @@ public partial class Pedidos : ContentPage
             HorizontalOptions = LayoutOptions.End
         });
 
-        expandableSection.Add(linha1);
+        expandableSection.Add(linharipa);
 
         // Linha 2: Viga
-        HorizontalStackLayout linha2 = new HorizontalStackLayout
+        HorizontalStackLayout linhaviga = new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center
         };
 
-        linha2.Add(new Label
+        linhaviga.Add(new Label
         {
             Text = "Viga",
             FontFamily = "Gagalin-Regular",
@@ -160,7 +179,7 @@ public partial class Pedidos : ContentPage
             Margin = new Thickness(0, 0, 100, 0)
         });
 
-        linha2.Add(new Label
+        linhaviga.Add(new Label
         {
             Text = "QTD",
             FontFamily = "Gagalin-Regular",
@@ -169,15 +188,15 @@ public partial class Pedidos : ContentPage
             HorizontalOptions = LayoutOptions.End
         });
 
-        expandableSection.Add(linha2);
+        expandableSection.Add(linhaviga);
 
         // Linha 3: Tábua
-        HorizontalStackLayout linha3 = new HorizontalStackLayout
+        HorizontalStackLayout linhatabua = new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center
         };
 
-        linha3.Add(new Label
+        linhatabua.Add(new Label
         {
             Text = "Tábua",
             FontFamily = "Gagalin-Regular",
@@ -187,7 +206,7 @@ public partial class Pedidos : ContentPage
             Margin = new Thickness(0, 0, 80, 0)
         });
 
-        linha3.Add(new Label
+        linhatabua.Add(new Label
         {
             Text = "QTD",
             FontFamily = "Gagalin-Regular",
@@ -196,7 +215,7 @@ public partial class Pedidos : ContentPage
             HorizontalOptions = LayoutOptions.End
         });
 
-        expandableSection.Add(linha3);
+        expandableSection.Add(linhatabua);
 
         // Adicionar botão de fechar
         Button btnFechar = new Button
@@ -210,6 +229,27 @@ public partial class Pedidos : ContentPage
             Margin = new Thickness(0, 10, 0, 5)
         };
 
+        // Adiciona botão para remover o item
+        Button btnConcluir = new Button
+        {
+            Text = "Concluir Pedido",
+            BackgroundColor = Color.FromArgb("#6BD14F"), // Cor vermelha para indicar remoção
+            TextColor = Colors.White,
+            HorizontalOptions = LayoutOptions.Center,
+            Padding = new Thickness(10, 5),
+            WidthRequest = 150,
+            Margin = new Thickness(0, 5, 0, 5)
+        };
+
+        btnConcluir.Clicked += (s, e) =>
+        {
+            // Remove o item da array e fecha o painel
+            string itemParaRemover = botaoClicado.Text;
+            myLayout.Remove(expandableSection);
+            RemoverItemDoArray(itemParaRemover);
+            MostrarBotoes();
+        };
+
         btnFechar.Clicked += (s, e) =>
         {
             // Remover o StackLayout quando o botão de fechar for clicado
@@ -218,6 +258,7 @@ public partial class Pedidos : ContentPage
         };
 
         expandableSection.Add(btnFechar);
+        expandableSection.Add(btnConcluir); // Adiciona o botão de remover
 
         // Adicionar o StackLayout ao mesmo container onde os botões estão
         myLayout.Add(expandableSection);
