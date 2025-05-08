@@ -1,10 +1,9 @@
-
-
 namespace MauiAppArvoredo.Views;
 
 public partial class Estoque : ContentPage
 {
     private List<Button> todosBotoes = new List<Button>();
+    public string[] opcoes = { "Eucalipto", "Peroba", "Pau Brasil", "Carvalho", "Jatoba", "Nogueira" };
     public Estoque()
 	{
 		InitializeComponent();
@@ -26,7 +25,7 @@ public partial class Estoque : ContentPage
     private void CriarBotoesDinamicamente()
     {
         // Exemplo de uma lista de dados para criar botões
-        string[] opcoes = { "Eucalipto", "Peroba", "Pau Brasil", "Carvalho", "Jatoba", "Nogueira" };
+        
 
         // Cria botões em laço com base na lista
         for (int i = 0; i < opcoes.Length; i++)
@@ -224,8 +223,21 @@ public partial class Estoque : ContentPage
             MostrarBotoes();
         };
 
+        btnEditar.Clicked += (s, e) =>
+        {
+            try
+            {
+                Navigation.PushAsync(new EditarEstoque());
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Não encontrado", ex.Message, "OK");
+            }
+        };
+
         expandableSection.Add(btnFechar);
         expandableSection.Add(btnEditar);
+
 
         // Adicionar o StackLayout ao mesmo container onde os botões estão
         StackPrincipal.Add(expandableSection);
