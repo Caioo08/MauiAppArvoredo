@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MauiAppArvoredo.Models;
+﻿using MauiAppArvoredo.Models;
 using SQLite;
 
 namespace MauiAppArvoredo.Helpers
@@ -35,7 +30,10 @@ namespace MauiAppArvoredo.Helpers
             return _connection.Table<Madeiras>().DeleteAsync(i => i.id == id);
         }  
 
-        public void GetAll() { } 
+        public Task<List<Madeiras>> GetAll() 
+        {
+            return _connection.Table<Madeiras>().ToListAsync();
+        } 
 
     }
 }
