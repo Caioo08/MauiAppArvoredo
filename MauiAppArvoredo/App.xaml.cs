@@ -10,7 +10,9 @@ namespace MauiAppArvoredo
 
             MainPage = new AppShell();
 
-           
+
+
+        
         }
     }
 }

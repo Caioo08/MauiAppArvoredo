@@ -7,6 +7,7 @@ namespace MauiAppArvoredo.Views;
 
 public partial class Pedidos : ContentPage
 {
+    string[] tipos = Estoque.tipos;
     private List<Button> todosBotoes = new List<Button>();
     // Array de opções que será modificado quando um item for removido
     private string[] opcoes = { "João", "Pedro", "Marcos", "Tiago", "Lucas" };
@@ -144,7 +145,7 @@ public partial class Pedidos : ContentPage
 
         linharipa.Add(new Label
         {
-            Text = "Ripa",
+            Text = tipos[0],
             FontFamily = "Gagalin-Regular",
             FontSize = 24,
             TextColor = Color.FromArgb("#391b01"),
@@ -171,7 +172,7 @@ public partial class Pedidos : ContentPage
 
         linhaviga.Add(new Label
         {
-            Text = "Viga",
+            Text = tipos[1],
             FontFamily = "Gagalin-Regular",
             FontSize = 24,
             TextColor = Color.FromArgb("#391b01"),
@@ -198,7 +199,7 @@ public partial class Pedidos : ContentPage
 
         linhatabua.Add(new Label
         {
-            Text = "Tábua",
+            Text = tipos[2],
             FontFamily = "Gagalin-Regular",
             FontSize = 24,
             TextColor = Color.FromArgb("#391b01"),

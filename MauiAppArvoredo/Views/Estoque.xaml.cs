@@ -1,9 +1,15 @@
+using Microsoft.Windows.PushNotifications;
+
 namespace MauiAppArvoredo.Views;
 
 public partial class Estoque : ContentPage
 {
     private List<Button> todosBotoes = new List<Button>();
-    public string[] opcoes = { "Eucalipto", "Peroba", "Pau Brasil", "Carvalho", "Jatoba", "Nogueira" };
+    public static string[] madeiras = { "Eucalipto", "Peroba", "Pau Brasil", "Carvalho", "Jatoba", "Nogueira" };
+    public static string[] tipos = { "Viga", "Ripa", "Tábua" };
+    public static string[] tamanhos_viga = { "6 metros", "7 metros", "9 metros" };
+    public static string[] tamanhos_ripa = { "20x30", "12x07", "45x12" };
+    public static string[] tamanhos_tabua = { "6 metros", "7 metros", "9 metros" };
     public Estoque()
 	{
 		InitializeComponent();
@@ -28,12 +34,12 @@ public partial class Estoque : ContentPage
         
 
         // Cria botões em laço com base na lista
-        for (int i = 0; i < opcoes.Length; i++)
+        for (int i = 0; i < madeiras.Length; i++)
         {
             // Cria uma nova instância de botão
             Button novoBtn = new Button
             {
-                Text = opcoes[i],
+                Text = madeiras[i],
                 BackgroundColor = Color.FromArgb("#efd4ac"),
                 TextColor = Color.FromArgb("#391b01"),
                 CornerRadius = 8,
@@ -120,7 +126,7 @@ public partial class Estoque : ContentPage
 
         linharipa.Add(new Label
         {
-            Text = "Ripa",
+            Text = tipos[0],
             FontFamily = "Gagalin-Regular",
             FontSize = 24,
             TextColor = Color.FromArgb("#391b01"),
@@ -147,7 +153,7 @@ public partial class Estoque : ContentPage
 
         linhaviga.Add(new Label
         {
-            Text = "Viga",
+            Text = tipos[1],
             FontFamily = "Gagalin-Regular",
             FontSize = 24,
             TextColor = Color.FromArgb("#391b01"),
@@ -174,7 +180,7 @@ public partial class Estoque : ContentPage
 
         linhatabua.Add(new Label
         {
-            Text = "Tábua",
+            Text = tipos[2],
             FontFamily = "Gagalin-Regular",
             FontSize = 24,
             TextColor = Color.FromArgb("#391b01"),
