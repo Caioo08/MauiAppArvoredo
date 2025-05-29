@@ -1,3 +1,5 @@
+using MauiAppArvoredo.Models;
+
 namespace MauiAppArvoredo.Views;
 
 public partial class EditarEstoque : ContentPage
@@ -7,6 +9,7 @@ public partial class EditarEstoque : ContentPage
     string[] tamanhos_viga = Estoque.tamanhos_viga;
     string[] tamanhos_ripa = Estoque.tamanhos_ripa;
     string[] tamanhos_tabua = Estoque.tamanhos_tabua;
+
     // Declarar os pickers como campos da classe para acessá-los nos eventos
     private Picker pickerMadeiras;
     private Picker pickerTipos;
@@ -15,9 +18,21 @@ public partial class EditarEstoque : ContentPage
     public Button buttonSalvar;
     private Button buttonCancelar;
 
+    // Propriedade para armazenar a madeira selecionada
+    private string madeiraSelecionada;
+
+    // Construtor original (manter para compatibilidade)
     public EditarEstoque()
     {
         InitializeComponent();
+        CriarTela();
+    }
+
+    // Construtor que recebe o texto da madeira selecionada
+    public EditarEstoque(string textoMadeira)
+    {
+        InitializeComponent();
+        madeiraSelecionada = textoMadeira;
         CriarTela();
     }
 
@@ -26,7 +41,7 @@ public partial class EditarEstoque : ContentPage
         // Criar os controles
         pickerMadeiras = new Picker()
         {
-            Title = ,
+            Title = madeiraSelecionada ?? "Selecione a madeira",
             WidthRequest = 330,
             BackgroundColor = Color.FromArgb("#efd4ac")
         };
@@ -58,7 +73,7 @@ public partial class EditarEstoque : ContentPage
         buttonSalvar = new Button()
         {
             Text = "Salvar",
-            BackgroundColor = Color.FromArgb("#6BD14F"), // Cor vermelha para indicar remoção
+            BackgroundColor = Color.FromArgb("#6BD14F"),
             TextColor = Colors.White,
             HorizontalOptions = LayoutOptions.Center,
             Padding = new Thickness(10, 5),
@@ -69,7 +84,7 @@ public partial class EditarEstoque : ContentPage
         buttonCancelar = new Button()
         {
             Text = "Cancelar",
-            BackgroundColor = Color.FromArgb("#FF2222"), // Cor vermelha para indicar remoção
+            BackgroundColor = Color.FromArgb("#FF2222"),
             TextColor = Colors.White,
             HorizontalOptions = LayoutOptions.Center,
             Padding = new Thickness(10, 5),
@@ -77,23 +92,41 @@ public partial class EditarEstoque : ContentPage
             Margin = new Thickness(0, 5, 0, 5)
         };
 
+        // Evento do botão Cancelar
         buttonCancelar.Clicked += (s, e) =>
         {
             try
             {
-                Navigation.PushAsync(new Estoque());
+                Navigation.PopAsync(); // Voltar para a página anterior
             }
             catch (Exception ex)
             {
-                DisplayAlert("Não encontrado", ex.Message, "OK");
+                DisplayAlert("Erro", ex.Message, "OK");
             }
+        };
+
+        // NOVO: Evento do botão Salvar
+        buttonSalvar.Clicked += async (s, e) =>
+        {
+            await SalvarDados();
         };
 
         // Configurar os dados dos pickers
         pickerMadeiras.ItemsSource = madeiras;
+
+        // Se uma madeira específica foi passada, selecionar ela automaticamente
+        if (!string.IsNullOrEmpty(madeiraSelecionada))
+        {
+            int indice = Array.IndexOf(madeiras, madeiraSelecionada);
+            if (indice >= 0)
+            {
+                pickerMadeiras.SelectedIndex = indice;
+            }
+        }
+
         pickerTipos.ItemsSource = tipos;
 
-        // IMPORTANTE: Adicionar o evento ANTES de adicionar à tela
+        // Adicionar o evento ANTES de adicionar à tela
         pickerTipos.SelectedIndexChanged += OnTipoSelecionado;
 
         // Adicionar à tela
@@ -105,6 +138,67 @@ public partial class EditarEstoque : ContentPage
         Stackprincipal.Add(buttonSalvar);
     }
 
+    // NOVO MÉTODO: Validar e salvar os dados
+    private async Task SalvarDados()
+    {
+        try
+        {
+            // Validar se todos os campos estão preenchidos
+            if (pickerMadeiras.SelectedIndex == -1)
+            {
+                await DisplayAlert("Erro", "Por favor, selecione uma madeira.", "OK");
+                return;
+            }
+
+            if (pickerTipos.SelectedIndex == -1)
+            {
+                await DisplayAlert("Erro", "Por favor, selecione um tipo.", "OK");
+                return;
+            }
+
+            if (pickerTamanhos.SelectedIndex == -1)
+            {
+                await DisplayAlert("Erro", "Por favor, selecione um tamanho.", "OK");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(entry.Text))
+            {
+                await DisplayAlert("Erro", "Por favor, digite uma quantidade.", "OK");
+                return;
+            }
+
+            // Validar se a quantidade é um número válido
+            if (!int.TryParse(entry.Text, out int quantidade) || quantidade < 0)
+            {
+                await DisplayAlert("Erro", "Por favor, digite uma quantidade válida (número inteiro positivo).", "OK");
+                return;
+            }
+
+            // Obter os valores selecionados
+            string madeiraSelecionada = (string)pickerMadeiras.SelectedItem;
+            string tipoSelecionado = (string)pickerTipos.SelectedItem;
+            string tamanhoSelecionado = (string)pickerTamanhos.SelectedItem;
+
+            // Salvar os dados usando a classe DadosEstoque
+            DadosEstoque.SalvarQuantidade(madeiraSelecionada, tipoSelecionado, tamanhoSelecionado, quantidade);
+
+            // Mostrar confirmação
+            await DisplayAlert("Sucesso", $"Dados salvos com sucesso!\n\n" +
+                              $"Madeira: {madeiraSelecionada}\n" +
+                              $"Tipo: {tipoSelecionado}\n" +
+                              $"Tamanho: {tamanhoSelecionado}\n" +
+                              $"Quantidade: {quantidade}", "OK");
+
+            // Voltar para a página anterior
+            await Navigation.PopAsync();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", $"Erro ao salvar os dados: {ex.Message}", "OK");
+        }
+    }
+
     // Evento que é chamado quando o usuário seleciona um tipo
     private void OnTipoSelecionado(object sender, EventArgs e)
     {
@@ -114,7 +208,7 @@ public partial class EditarEstoque : ContentPage
         {
             string opcaoSelecionada = (string)picker.SelectedItem;
 
-            // Aqui sim funciona o if, porque o usuário já selecionou algo
+            // Configurar o picker de tamanhos baseado no tipo selecionado
             if (opcaoSelecionada == "Viga")
             {
                 pickerTamanhos.ItemsSource = tamanhos_viga;

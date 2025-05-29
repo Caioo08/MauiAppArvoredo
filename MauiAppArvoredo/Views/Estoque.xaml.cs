@@ -1,4 +1,4 @@
-using Microsoft.Windows.PushNotifications;
+using MauiAppArvoredo.Models;
 
 namespace MauiAppArvoredo.Views;
 
@@ -10,10 +10,18 @@ public partial class Estoque : ContentPage
     public static string[] tamanhos_viga = { "6 metros", "7 metros", "9 metros" };
     public static string[] tamanhos_ripa = { "20x30", "12x07", "45x12" };
     public static string[] tamanhos_tabua = { "6 metros", "7 metros", "9 metros" };
+
     public Estoque()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         CriarBotoesDinamicamente();
+    }
+
+    // Método chamado quando a página aparece (para atualizar os dados)
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        // Atualizar a interface se necessário
     }
 
     private void voltar_Clicked(object sender, EventArgs e)
@@ -30,9 +38,6 @@ public partial class Estoque : ContentPage
 
     private void CriarBotoesDinamicamente()
     {
-        // Exemplo de uma lista de dados para criar botões
-        
-
         // Cria botões em laço com base na lista
         for (int i = 0; i < madeiras.Length; i++)
         {
@@ -65,6 +70,7 @@ public partial class Estoque : ContentPage
             StackPrincipal.Add(novoBtn);
         }
     }
+
     private void EsconderBotoes()
     {
         // Esconde todos os botões
@@ -88,7 +94,7 @@ public partial class Estoque : ContentPage
     private void BotaoClicado(object sender, int index)
     {
         Button botaoClicado = (Button)sender;
-
+        string madeiraSelecionada = botaoClicado.Text;
 
         // Criar um StackLayout personalizado
         StackLayout expandableSection = new StackLayout
@@ -99,7 +105,6 @@ public partial class Estoque : ContentPage
             Margin = new Thickness(0, -10, 0, 0)
         };
 
-        // Adicionar itens ao StackLayout
         // Cabeçalho
         HorizontalStackLayout header = new HorizontalStackLayout
         {
@@ -118,86 +123,8 @@ public partial class Estoque : ContentPage
 
         expandableSection.Add(header);
 
-        // Linha 1: Ripa
-        HorizontalStackLayout linharipa = new HorizontalStackLayout
-        {
-            HorizontalOptions = LayoutOptions.Center
-        };
-
-        linharipa.Add(new Label
-        {
-            Text = tipos[0],
-            FontFamily = "Gagalin-Regular",
-            FontSize = 24,
-            TextColor = Color.FromArgb("#391b01"),
-            HorizontalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 0, 100, 0)
-        });
-
-        linharipa.Add(new Label
-        {
-            Text = "QTD",
-            FontFamily = "Gagalin-Regular",
-            FontSize = 24,
-            TextColor = Color.FromArgb("#391b01"),
-            HorizontalOptions = LayoutOptions.End
-        });
-
-        expandableSection.Add(linharipa);
-
-        // Linha 2: Viga
-        HorizontalStackLayout linhaviga = new HorizontalStackLayout
-        {
-            HorizontalOptions = LayoutOptions.Center
-        };
-
-        linhaviga.Add(new Label
-        {
-            Text = tipos[1],
-            FontFamily = "Gagalin-Regular",
-            FontSize = 24,
-            TextColor = Color.FromArgb("#391b01"),
-            HorizontalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 0, 100, 0)
-        });
-
-        linhaviga.Add(new Label
-        {
-            Text = "QTD",
-            FontFamily = "Gagalin-Regular",
-            FontSize = 24,
-            TextColor = Color.FromArgb("#391b01"),
-            HorizontalOptions = LayoutOptions.End
-        });
-
-        expandableSection.Add(linhaviga);
-
-        // Linha 3: Tábua
-        HorizontalStackLayout linhatabua = new HorizontalStackLayout
-        {
-            HorizontalOptions = LayoutOptions.Center
-        };
-
-        linhatabua.Add(new Label
-        {
-            Text = tipos[2],
-            FontFamily = "Gagalin-Regular",
-            FontSize = 24,
-            TextColor = Color.FromArgb("#391b01"),
-            HorizontalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 0, 80, 0)
-        });
-
-        linhatabua.Add(new Label
-        {
-            Text = "QTD",
-            FontFamily = "Gagalin-Regular",
-            FontSize = 24,
-            TextColor = Color.FromArgb("#391b01"),
-            HorizontalOptions = LayoutOptions.End
-        });
-
-        expandableSection.Add(linhatabua);
+        // MODIFICAÇÃO: Criar linhas dinamicamente com dados salvos
+        CriarLinhasEstoque(expandableSection, madeiraSelecionada);
 
         // Adicionar botão de fechar
         Button btnFechar = new Button
@@ -229,11 +156,12 @@ public partial class Estoque : ContentPage
             MostrarBotoes();
         };
 
+        // Passar o texto do botão clicado para EditarEstoque
         btnEditar.Clicked += (s, e) =>
         {
             try
             {
-                Navigation.PushAsync(new EditarEstoque());
+                Navigation.PushAsync(new EditarEstoque(botaoClicado.Text));
             }
             catch (Exception ex)
             {
@@ -244,8 +172,90 @@ public partial class Estoque : ContentPage
         expandableSection.Add(btnFechar);
         expandableSection.Add(btnEditar);
 
-
         // Adicionar o StackLayout ao mesmo container onde os botões estão
         StackPrincipal.Add(expandableSection);
+    }
+
+    // NOVO MÉTODO: Criar linhas do estoque com dados salvos
+    private void CriarLinhasEstoque(StackLayout container, string madeira)
+    {
+        // Obter dados salvos para esta madeira
+        var dadosSalvos = DadosEstoque.ObterQuantidadesPorMadeira(madeira);
+
+        foreach (string tipo in tipos)
+        {
+            // Criar linha para cada tipo (Viga, Ripa, Tábua)
+            HorizontalStackLayout linha = new HorizontalStackLayout
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                Margin = new Thickness(0, 5)
+            };
+
+            // Label do tipo
+            linha.Add(new Label
+            {
+                Text = tipo,
+                FontFamily = "Gagalin-Regular",
+                FontSize = 20,
+                TextColor = Color.FromArgb("#391b01"),
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.Center,
+                Margin = new Thickness(10, 0, 0, 0)
+            });
+
+            // Criar seção de quantidades para este tipo
+            StackLayout secaoQuantidades = new StackLayout
+            {
+                HorizontalOptions = LayoutOptions.End,
+                Spacing = 3
+            };
+
+            // Obter tamanhos baseado no tipo
+            string[] tamanhos = tipo switch
+            {
+                "Viga" => tamanhos_viga,
+                "Ripa" => tamanhos_ripa,
+                "Tábua" => tamanhos_tabua,
+                _ => new string[0]
+            };
+
+            // Criar labels para cada tamanho
+            bool temDados = false;
+            foreach (string tamanho in tamanhos)
+            {
+                int quantidade = DadosEstoque.ObterQuantidade(madeira, tipo, tamanho);
+                if (quantidade > 0)
+                {
+                    temDados = true;
+                    Label labelQuantidade = new Label
+                    {
+                        Text = $"{tamanho}: {quantidade}",
+                        FontFamily = "Gagalin-Regular",
+                        FontSize = 14,
+                        TextColor = Color.FromArgb("#391b01"),
+                        HorizontalOptions = LayoutOptions.Center
+                    };
+                    secaoQuantidades.Add(labelQuantidade);
+                }
+            }
+
+            // Se não tem dados salvos, mostrar "QTD" como antes
+            if (!temDados)
+            {
+                Label labelPadrao = new Label
+                {
+                    Text = "QTD",
+                    FontFamily = "Gagalin-Regular",
+                    FontSize = 20,
+                    TextColor = Color.FromArgb("#391b01"),
+                    HorizontalOptions = LayoutOptions.End,
+                    VerticalOptions = LayoutOptions.Center
+                };
+                secaoQuantidades.Add(labelPadrao);
+            }
+
+            linha.Add(secaoQuantidades);
+            container.Add(linha);
+        }
     }
 }
