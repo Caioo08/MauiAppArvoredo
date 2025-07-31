@@ -39,25 +39,40 @@ public partial class EditarEstoque : ContentPage
     private void CriarTela()
     {
         // Criar os controles
-        pickerMadeiras = new Picker()
+        pickerMadeiras = new Picker
         {
             Title = madeiraSelecionada ?? "Selecione a madeira",
-            WidthRequest = 330,
-            BackgroundColor = Color.FromArgb("#efd4ac")
+            ItemsSource = madeiras,
+            HorizontalOptions = LayoutOptions.Fill,
+            BackgroundColor = Colors.Transparent,
+            TextColor = Colors.Black,
+            FontSize = 16,
+            Margin = new Thickness(0, 10),
+            WidthRequest=330
         };
 
         pickerTipos = new Picker()
         {
             Title = "Selecione o tipo",
-            WidthRequest = 330,
-            BackgroundColor = Color.FromArgb("#efd4ac")
+            ItemsSource = madeiras,
+            HorizontalOptions = LayoutOptions.Fill,
+            BackgroundColor = Colors.Transparent,
+            TextColor = Colors.Black,
+            FontSize = 16,
+            Margin = new Thickness(0, 10),
+            WidthRequest = 330
         };
 
         pickerTamanhos = new Picker()
         {
             Title = "Selecione o tamanho",
+            ItemsSource = madeiras,
+            HorizontalOptions = LayoutOptions.Fill,
+            BackgroundColor = Colors.Transparent,
+            TextColor = Colors.Black,
+            FontSize = 16,
+            Margin = new Thickness(0, 10),
             WidthRequest = 330,
-            BackgroundColor = Color.FromArgb("#efd4ac"),
             IsEnabled = false // Desabilitado até selecionar um tipo
         };
 
@@ -65,9 +80,17 @@ public partial class EditarEstoque : ContentPage
         {
             Placeholder = "Digite a quantidade",
             Keyboard = Keyboard.Numeric,
-            PlaceholderColor = Color.FromArgb("000"),
-            BackgroundColor = Color.FromArgb("#efd4ac"),
+            BackgroundColor = Colors.Transparent,
+            TextColor = Colors.Black,
+            PlaceholderColor = Colors.Black,
+            FontSize = 16,
+            Margin = new Thickness(0, 10),
+            HorizontalOptions = LayoutOptions.Fill,
+            MaxLength = 5,
+            ReturnType = ReturnType.Done,
+            CursorPosition = 0,
             WidthRequest = 330,
+            ClearButtonVisibility = ClearButtonVisibility.WhileEditing
         };
 
         buttonSalvar = new Button()

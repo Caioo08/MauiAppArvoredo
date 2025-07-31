@@ -6,7 +6,7 @@ public partial class Estoque : ContentPage
 {
     private List<Button> todosBotoes = new List<Button>();
     public static string[] madeiras = { "Eucalipto", "Peroba", "Pau Brasil", "Carvalho", "Jatoba", "Nogueira" };
-    public static string[] tipos = { "Viga", "Ripa", "Tábua" };
+    public static string[] tipos = { "Viga", "Ripa", "T?bua" };
     public static string[] tamanhos_viga = { "6 metros", "7 metros", "9 metros" };
     public static string[] tamanhos_ripa = { "20x30", "12x07", "45x12" };
     public static string[] tamanhos_tabua = { "6 metros", "7 metros", "9 metros" };
@@ -17,11 +17,11 @@ public partial class Estoque : ContentPage
         CriarBotoesDinamicamente();
     }
 
-    // Método chamado quando a página aparece (para atualizar os dados)
+    // M?todo chamado quando a p?gina aparece (para atualizar os dados)
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        // Atualizar a interface se necessário
+        // Atualizar a interface se necess?rio
     }
 
     private void voltar_Clicked(object sender, EventArgs e)
@@ -32,16 +32,16 @@ public partial class Estoque : ContentPage
         }
         catch (Exception ex)
         {
-            DisplayAlert("Não encontrado", ex.Message, "OK");
+            DisplayAlert("N?o encontrado", ex.Message, "OK");
         }
     }
 
     private void CriarBotoesDinamicamente()
     {
-        // Cria botões em laço com base na lista
+        // Cria bot?es em la?o com base na lista
         for (int i = 0; i < madeiras.Length; i++)
         {
-            // Cria uma nova instância de botão
+            // Cria uma nova inst?ncia de bot?o
             Button novoBtn = new Button
             {
                 Text = madeiras[i],
@@ -54,7 +54,7 @@ public partial class Estoque : ContentPage
                 Margin = new Thickness(0, 5)
             };
 
-            // Adiciona um id ao botão para identificação
+            // Adiciona um id ao bot?o para identifica??o
             int index = i; // Capturar o valor de i para o closure do evento
 
             // Adiciona o evento de clique
@@ -66,14 +66,14 @@ public partial class Estoque : ContentPage
 
             todosBotoes.Add(novoBtn);
 
-            // Adiciona o botão ao container
+            // Adiciona o bot?o ao container
             StackPrincipal.Add(novoBtn);
         }
     }
 
     private void EsconderBotoes()
     {
-        // Esconde todos os botões
+        // Esconde todos os bot?es
         foreach (Button btn in todosBotoes)
         {
             btn.IsVisible = false;
@@ -83,7 +83,7 @@ public partial class Estoque : ContentPage
 
     private void MostrarBotoes()
     {
-        // Torna todos os botões visíveis novamente
+        // Torna todos os bot?es vis?veis novamente
         foreach (Button btn in todosBotoes)
         {
             btn.IsVisible = true;
@@ -105,7 +105,7 @@ public partial class Estoque : ContentPage
             Margin = new Thickness(0, -10, 0, 0)
         };
 
-        // Cabeçalho
+        // Cabe?alho
         HorizontalStackLayout header = new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center
@@ -123,10 +123,10 @@ public partial class Estoque : ContentPage
 
         expandableSection.Add(header);
 
-        // MODIFICAÇÃO: Criar linhas dinamicamente com dados salvos
+        // MODIFICA??O: Criar linhas dinamicamente com dados salvos
         CriarLinhasEstoque(expandableSection, madeiraSelecionada);
 
-        // Adicionar botão de fechar
+        // Adicionar bot?o de fechar
         Button btnFechar = new Button
         {
             Text = "Fechar",
@@ -151,12 +151,12 @@ public partial class Estoque : ContentPage
 
         btnFechar.Clicked += (s, e) =>
         {
-            // Remover o StackLayout quando o botão de fechar for clicado
+            // Remover o StackLayout quando o bot?o de fechar for clicado
             StackPrincipal.Remove(expandableSection);
             MostrarBotoes();
         };
 
-        // Passar o texto do botão clicado para EditarEstoque
+        // Passar o texto do bot?o clicado para EditarEstoque
         btnEditar.Clicked += (s, e) =>
         {
             try
@@ -165,18 +165,18 @@ public partial class Estoque : ContentPage
             }
             catch (Exception ex)
             {
-                DisplayAlert("Não encontrado", ex.Message, "OK");
+                DisplayAlert("N?o encontrado", ex.Message, "OK");
             }
         };
 
         expandableSection.Add(btnFechar);
         expandableSection.Add(btnEditar);
 
-        // Adicionar o StackLayout ao mesmo container onde os botões estão
+        // Adicionar o StackLayout ao mesmo container onde os bot?es est?o
         StackPrincipal.Add(expandableSection);
     }
 
-    // NOVO MÉTODO: Criar linhas do estoque com dados salvos
+    // NOVO M?TODO: Criar linhas do estoque com dados salvos
     private void CriarLinhasEstoque(StackLayout container, string madeira)
     {
         // Obter dados salvos para esta madeira
@@ -184,7 +184,7 @@ public partial class Estoque : ContentPage
 
         foreach (string tipo in tipos)
         {
-            // Criar linha para cada tipo (Viga, Ripa, Tábua)
+            // Criar linha para cada tipo (Viga, Ripa, T?bua)
             HorizontalStackLayout linha = new HorizontalStackLayout
             {
                 HorizontalOptions = LayoutOptions.Center,
@@ -203,7 +203,7 @@ public partial class Estoque : ContentPage
                 Margin = new Thickness(10, 0, 0, 0)
             });
 
-            // Criar seção de quantidades para este tipo
+            // Criar se??o de quantidades para este tipo
             StackLayout secaoQuantidades = new StackLayout
             {
                 HorizontalOptions = LayoutOptions.End,
@@ -215,7 +215,7 @@ public partial class Estoque : ContentPage
             {
                 "Viga" => tamanhos_viga,
                 "Ripa" => tamanhos_ripa,
-                "Tábua" => tamanhos_tabua,
+                "T?bua" => tamanhos_tabua,
                 _ => new string[0]
             };
 
@@ -239,7 +239,7 @@ public partial class Estoque : ContentPage
                 }
             }
 
-            // Se não tem dados salvos, mostrar "QTD" como antes
+            // Se n?o tem dados salvos, mostrar "QTD" como antes
             if (!temDados)
             {
                 Label labelPadrao = new Label
