@@ -6,7 +6,7 @@ public partial class Estoque : ContentPage
 {
     private List<Button> todosBotoes = new List<Button>();
     public static string[] madeiras = { "Eucalipto", "Peroba", "Pau Brasil", "Carvalho", "Jatoba", "Nogueira" };
-    public static string[] tipos = { "Viga", "Ripa", "T?bua" };
+    public static string[] tipos = { "Viga", "Ripa", "Tábua" };
     public static string[] tamanhos_viga = { "6 metros", "7 metros", "9 metros" };
     public static string[] tamanhos_ripa = { "20x30", "12x07", "45x12" };
     public static string[] tamanhos_tabua = { "6 metros", "7 metros", "9 metros" };
@@ -32,7 +32,7 @@ public partial class Estoque : ContentPage
         }
         catch (Exception ex)
         {
-            DisplayAlert("N?o encontrado", ex.Message, "OK");
+            DisplayAlert("Não encontrado", ex.Message, "OK");
         }
     }
 
@@ -47,11 +47,13 @@ public partial class Estoque : ContentPage
                 Text = madeiras[i],
                 BackgroundColor = Color.FromArgb("#efd4ac"),
                 TextColor = Color.FromArgb("#391b01"),
-                CornerRadius = 8,
+                CornerRadius = 12,
                 WidthRequest = 320,
                 HeightRequest = 60,
                 FontSize = 20,
-                Margin = new Thickness(0, 5)
+                Margin = new Thickness(0, 5),
+                BorderColor = Colors.Brown,
+                BorderWidth = 1
             };
 
             // Adiciona um id ao bot?o para identifica??o
@@ -165,7 +167,7 @@ public partial class Estoque : ContentPage
             }
             catch (Exception ex)
             {
-                DisplayAlert("N?o encontrado", ex.Message, "OK");
+                DisplayAlert("Não encontrado", ex.Message, "OK");
             }
         };
 
@@ -184,7 +186,7 @@ public partial class Estoque : ContentPage
 
         foreach (string tipo in tipos)
         {
-            // Criar linha para cada tipo (Viga, Ripa, T?bua)
+            // Criar linha para cada tipo (Viga, Ripa, Tábua)
             HorizontalStackLayout linha = new HorizontalStackLayout
             {
                 HorizontalOptions = LayoutOptions.Center,
@@ -215,7 +217,7 @@ public partial class Estoque : ContentPage
             {
                 "Viga" => tamanhos_viga,
                 "Ripa" => tamanhos_ripa,
-                "T?bua" => tamanhos_tabua,
+                "Tábua" => tamanhos_tabua,
                 _ => new string[0]
             };
 
@@ -229,9 +231,9 @@ public partial class Estoque : ContentPage
                     temDados = true;
                     Label labelQuantidade = new Label
                     {
-                        Text = $"{tamanho}: {quantidade}",
+                        Text = $"   {tamanho}: {quantidade}",
                         FontFamily = "Gagalin-Regular",
-                        FontSize = 14,
+                        FontSize = 20,
                         TextColor = Color.FromArgb("#391b01"),
                         HorizontalOptions = LayoutOptions.Center
                     };
@@ -239,7 +241,7 @@ public partial class Estoque : ContentPage
                 }
             }
 
-            // Se n?o tem dados salvos, mostrar "QTD" como antes
+            // Se Não tem dados salvos, mostrar "QTD" como antes
             if (!temDados)
             {
                 Label labelPadrao = new Label
