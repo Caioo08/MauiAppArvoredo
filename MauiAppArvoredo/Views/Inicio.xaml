@@ -20,9 +20,8 @@
             <Button Text="SINCRONIZAR" WidthRequest="275" Margin="15" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="sincronizar" Clicked="sincronizar_Clicked"/>
             <Button Text="CONFIGURAÇÕES" WidthRequest="275" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" x:Name="configuracoes" Clicked="configuracoes_Clicked"/>
         </StackLayout>
-        <StackLayout Margin="0,20,0,0">
+        <StackLayout x:Name="Footer" Margin="0,20,0,0">
             <Image Source="logom.png" WidthRequest="300"/>
-            <Label Text="Sincronizado desde:" HorizontalOptions="Center"/>
         </StackLayout>
 
     </VerticalStackLayout>

@@ -246,7 +246,7 @@ public partial class Estoque : ContentPage
             {
                 Label labelPadrao = new Label
                 {
-                    Text = "QTD",
+                    Text = " QTD",
                     FontFamily = "Gagalin-Regular",
                     FontSize = 20,
                     TextColor = Color.FromArgb("#391b01"),

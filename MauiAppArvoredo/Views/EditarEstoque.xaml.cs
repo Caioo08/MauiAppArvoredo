@@ -42,6 +42,7 @@ public partial class EditarEstoque : ContentPage
         pickerMadeiras = new Picker
         {
             Title = madeiraSelecionada ?? "Selecione a madeira",
+            TitleColor= Colors.Black,
             ItemsSource = madeiras,
             HorizontalOptions = LayoutOptions.Fill,
             BackgroundColor = Colors.Transparent,
@@ -54,6 +55,7 @@ public partial class EditarEstoque : ContentPage
         pickerTipos = new Picker()
         {
             Title = "Selecione o tipo",
+            TitleColor = Colors.Black,
             ItemsSource = madeiras,
             HorizontalOptions = LayoutOptions.Fill,
             BackgroundColor = Colors.Transparent,
@@ -66,6 +68,7 @@ public partial class EditarEstoque : ContentPage
         pickerTamanhos = new Picker()
         {
             Title = "Selecione o tamanho",
+            TitleColor = Colors.Black,
             ItemsSource = madeiras,
             HorizontalOptions = LayoutOptions.Fill,
             BackgroundColor = Colors.Transparent,
@@ -214,7 +217,7 @@ public partial class EditarEstoque : ContentPage
                               $"Quantidade: {quantidade}", "OK");
 
             // Voltar para a página anterior
-            await Navigation.PopAsync();
+            await Navigation.PushAsync(new Estoque());
         }
         catch (Exception ex)
         {
@@ -262,4 +265,7 @@ public partial class EditarEstoque : ContentPage
             pickerTamanhos.Title = "Primeiro selecione o tipo";
         }
     }
+
+    
+
 }
