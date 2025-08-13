@@ -1,8 +1,11 @@
+using MauiAppArvoredo.Models;
 namespace MauiAppArvoredo;
 
 public partial class Inicio : ContentPage
 {
-	public Inicio()
+
+    private List<EstoqueItem> itensEmMemoria = new();
+    public Inicio()
 	{
 		InitializeComponent();
         tempo();
@@ -34,13 +37,30 @@ public partial class Inicio : ContentPage
         }
     }
 
-    private void sincronizar_Clicked(object sender, EventArgs e)
+    private async void sincronizar_Clicked(object sender, EventArgs e)
     {
+        foreach (var item in itensEmMemoria)
+        {
+            await App.Database.SalvarItemAsync(item);
+        }
 
+        await DisplayAlert("Sucesso", "Itens sincronizados com o banco de dados!", "OK");
+
+        // Se quiser, limpar a lista em memória
+        itensEmMemoria.Clear();
     }
 
     private void configuracoes_Clicked(object sender, EventArgs e)
     {
 
+    }
+
+    private void AdicionarItem(string nome, int quantidade)
+    {
+        itensEmMemoria.Add(new EstoqueItem
+        {
+            Nome = nome,
+            Quantidade = quantidade
+        });
     }
 }
