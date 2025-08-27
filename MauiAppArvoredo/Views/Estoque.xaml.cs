@@ -233,7 +233,7 @@ public partial class Estoque : ContentPage
                     {
                         Text = $"   {tamanho}: {quantidade}",
                         FontFamily = "Gagalin-Regular",
-                        FontSize = 20,
+                        FontSize = 18,
                         TextColor = Color.FromArgb("#391b01"),
                         HorizontalOptions = LayoutOptions.Center
                     };

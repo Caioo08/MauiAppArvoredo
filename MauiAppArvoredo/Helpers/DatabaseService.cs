@@ -15,20 +15,7 @@ namespace MauiAppArvoredo.Helpers
         public DatabaseService(string dbPath)
         {
             _db = new SQLiteAsyncConnection(dbPath);
-            _db.CreateTableAsync<EstoqueItem>().Wait();
         }
 
-        public Task<int> SalvarItemAsync(EstoqueItem item)
-        {
-            if (item.Id != 0)
-                return _db.UpdateAsync(item);
-            else
-                return _db.InsertAsync(item);
-        }
-
-        public Task<List<EstoqueItem>> GetItensAsync()
-        {
-            return _db.Table<EstoqueItem>().ToListAsync();
-        }
     }
 }

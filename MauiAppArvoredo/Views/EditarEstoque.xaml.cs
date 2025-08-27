@@ -49,7 +49,8 @@ public partial class EditarEstoque : ContentPage
             TextColor = Colors.Black,
             FontSize = 16,
             Margin = new Thickness(0, 10),
-            WidthRequest=330
+            WidthRequest=330,
+            InputTransparent = true
         };
 
         pickerTipos = new Picker()
