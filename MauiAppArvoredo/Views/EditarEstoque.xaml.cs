@@ -93,8 +93,7 @@ public partial class EditarEstoque : ContentPage
             MaxLength = 5,
             ReturnType = ReturnType.Done,
             CursorPosition = 0,
-            WidthRequest = 330,
-            ClearButtonVisibility = ClearButtonVisibility.WhileEditing
+            WidthRequest = 330
         };
 
         buttonSalvar = new Button()

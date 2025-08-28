@@ -43,4 +43,29 @@ public partial class Login : ContentPage
             DisplayAlert("Não encontrado", ex.Message, "OK");
         }
     }
+
+    private void password_Completed(object sender, EventArgs e)
+    {
+        string usuario = username.Text;
+        string senha = password.Text;
+
+        if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(senha))
+        {
+            DisplayAlert("Erro", "Preencha todos os campos", "OK");
+        }
+        else if (usuario == "caio" && senha == "123")
+        {
+            // Navegue para a próxima página
+            Navigation.PushAsync(new TelaInicial());
+        }
+        else if (usuario == "pp" && senha == "22")
+        {
+            // Navegue para a próxima página
+            Navigation.PushAsync(new TelaInicial());
+        }
+        else
+        {
+            DisplayAlert("Erro", "Usuário ou senha incorretos", "OK");
+        }
+    }
 }

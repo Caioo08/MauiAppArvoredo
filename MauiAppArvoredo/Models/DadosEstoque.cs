@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace MauiAppArvoredo.Models
+﻿namespace MauiAppArvoredo.Models
 {
     public static class DadosEstoque
     {
