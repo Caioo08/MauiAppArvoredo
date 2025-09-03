@@ -1,71 +1,59 @@
+ï»¿using MauiAppArvoredo.Helpers;
+using MauiAppArvoredo.Models;
+
 namespace MauiAppArvoredo;
 
 public partial class Login : ContentPage
 {
-	public Login()
-	{
-		InitializeComponent();
+    private readonly DatabaseService _db;
+
+    public Login()
+    {
+        InitializeComponent();
+
+        string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "app.db3");
+        _db = new DatabaseService(dbPath);
     }
 
-    public void entrar_Clicked(object sender, EventArgs e)
+    private async void OnLoginClicked(object sender, EventArgs e)
     {
-        string usuario = username.Text;
-        string senha = password.Text;
+        var usuario = await _db.GetUsuarioAsync(EmailEntry.Text, SenhaEntry.Text);
 
-        if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(senha))
+        if (usuario != null)
         {
-            DisplayAlert("Erro", "Preencha todos os campos", "OK");
-        }
-        else if (usuario == "caio" && senha == "123")
-        {
-            // Navegue para a próxima página
-            Navigation.PushAsync(new TelaInicial());
-        }
-        else if (usuario == "pp" && senha == "22")
-        {
-            // Navegue para a próxima página
-            Navigation.PushAsync(new TelaInicial());
+            await DisplayAlert("Sucesso", "Login realizado!", "OK");
+            // Vai para a tela principal
+            Application.Current.MainPage = new AppShell();
         }
         else
         {
-            DisplayAlert("Erro", "Usuário ou senha incorretos", "OK");
+            await DisplayAlert("Erro", "UsuÃ¡rio ou senha invÃ¡lidos", "OK");
         }
     }
 
-    private void voltar_Clicked(object sender, EventArgs e)
+    private async void OnRegisterClicked(object sender, EventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(EmailEntry.Text) || string.IsNullOrWhiteSpace(SenhaEntry.Text))
+        {
+            await DisplayAlert("Erro", "Preencha email e senha", "OK");
+            return;
+        }
+
+        var usuario = new Usuario
+        {
+            Nome = EmailEntry.Text, // Pode usar o prÃ³prio email como nome por enquanto
+            Email = EmailEntry.Text,
+            Senha = SenhaEntry.Text
+        };
+
         try
         {
-            Navigation.PushAsync(new Inicio());
+            await _db.AddUsuarioAsync(usuario);
+            await DisplayAlert("Sucesso", "UsuÃ¡rio registrado!", "OK");
         }
-        catch(Exception ex)
+        catch
         {
-            DisplayAlert("Não encontrado", ex.Message, "OK");
-        }
-    }
-
-    private void password_Completed(object sender, EventArgs e)
-    {
-        string usuario = username.Text;
-        string senha = password.Text;
-
-        if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(senha))
-        {
-            DisplayAlert("Erro", "Preencha todos os campos", "OK");
-        }
-        else if (usuario == "caio" && senha == "123")
-        {
-            // Navegue para a próxima página
-            Navigation.PushAsync(new TelaInicial());
-        }
-        else if (usuario == "pp" && senha == "22")
-        {
-            // Navegue para a próxima página
-            Navigation.PushAsync(new TelaInicial());
-        }
-        else
-        {
-            DisplayAlert("Erro", "Usuário ou senha incorretos", "OK");
+            await DisplayAlert("Erro", "Esse email jÃ¡ estÃ¡ registrado", "OK");
         }
     }
 }

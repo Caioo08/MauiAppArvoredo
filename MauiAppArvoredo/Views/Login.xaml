@@ -4,6 +4,7 @@
              x:Class="MauiAppArvoredo.Login"
              Shell.NavBarIsVisible="False"
              NavigationPage.BackButtonTitle="Empty">
+
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#fae6c2" Offset="0.1"/>
@@ -11,16 +12,56 @@
             <GradientStop Color="#b47b39" Offset="0.7"/>
         </LinearGradientBrush>
     </ContentPage.Background>
+
     <VerticalStackLayout VerticalOptions="Center">
-        <Button ImageSource="seta.png" BackgroundColor="Transparent" WidthRequest="60" HorizontalOptions="Start" x:Name="voltar" Clicked="voltar_Clicked" Margin="3,0,0,0"/>
-        <StackLayout Margin="0,0,0,0" HorizontalOptions="Center">
-            <Image Source="simbolo.png" HeightRequest="320" WidthRequest="180" Margin="0"/>
-            <Label Text="DIGITE SEU NOME DE USUÁRIO:" HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" />
-            <Entry IsPassword="False" Margin="0,10,0,20" BackgroundColor="#efd4ac" WidthRequest="330" x:Name="username" TextColor="#391b01" FontSize="20"/> 
-            <Label Text="DIGITE SUA SENHA:" HorizontalOptions="Center" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01"/>
-            <Entry IsPassword="True" Margin="0,10,0,0" BackgroundColor="#efd4ac" Keyboard="Numeric" WidthRequest="330" x:Name="password" TextColor="#391b01" FontSize="20" Completed="password_Completed"/>
-            <Button Text="ENTRAR" WidthRequest="330" HeightRequest="57" BackgroundColor="#efd4ac" FontFamily="Gagalin-Regular" FontSize="30" TextColor="#391b01" CornerRadius="30" Margin="0,25,0,0" x:Name="entrar" Clicked="entrar_Clicked"/>
-            <Image Source="logom.png" WidthRequest="300" Margin="0,15,0,0" />
-        </StackLayout>
+
+        <!-- Título estilizado -->
+        <Label Text="LOGIN"
+               FontFamily="Gagalin-Regular"
+               FontSize="40"
+               HorizontalOptions="Center"
+               TextColor="#391b01"
+               Margin="0,0,0,10"/>
+
+        <!-- Campo de email -->
+        <Entry x:Name="EmailEntry"
+               Placeholder="Digite seu email"
+               BackgroundColor="White"
+               TextColor="Black"
+               FontFamily="Gagalin-Regular"
+               PlaceholderColor="#999"
+               HeightRequest="50"
+               WidthRequest="100"/>
+
+        <!-- Campo de senha -->
+        <Entry x:Name="SenhaEntry"
+               Placeholder="Digite sua senha"
+               IsPassword="True"
+               BackgroundColor="White"
+               TextColor="Black"
+               FontFamily="Gagalin-Regular"
+               PlaceholderColor="#999"
+               HeightRequest="50"
+               WidthRequest="100"/>
+
+        <!-- Botão de Login -->
+        <Button Text="ENTRAR"
+                FontFamily="Gagalin-Regular"
+                BackgroundColor="#391b01"
+                TextColor="White"
+                CornerRadius="20"
+                HeightRequest="55"
+                Margin="0,15"
+                Clicked="OnLoginClicked"/>
+
+        <!-- Botão de Registro -->
+        <Button Text="REGISTRAR"
+                FontFamily="Gagalin-Regular"
+                BackgroundColor="#d4a373"
+                TextColor="White"
+                CornerRadius="20"
+                HeightRequest="55"
+                Clicked="OnRegisterClicked"/>
+
     </VerticalStackLayout>
-</ContentPage>  
+</ContentPage>

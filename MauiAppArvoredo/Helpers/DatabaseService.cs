@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite;
+﻿using SQLite;
 using MauiAppArvoredo.Models;
 
 namespace MauiAppArvoredo.Helpers
@@ -15,7 +10,20 @@ namespace MauiAppArvoredo.Helpers
         public DatabaseService(string dbPath)
         {
             _db = new SQLiteAsyncConnection(dbPath);
+            _db.CreateTableAsync<Usuario>().Wait();
         }
 
+        // ======== USUÁRIOS ========
+        public Task<int> AddUsuarioAsync(Usuario usuario)
+        {
+            return _db.InsertAsync(usuario);
+        }
+
+        public Task<Usuario> GetUsuarioAsync(string email, string senha)
+        {
+            return _db.Table<Usuario>()
+                      .Where(u => u.Email == email && u.Senha == senha)
+                      .FirstOrDefaultAsync();
+        }
     }
 }

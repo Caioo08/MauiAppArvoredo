@@ -44,9 +44,4 @@ public partial class Inicio : ContentPage
     {
 
     }
-
-    private void AdicionarItem(string nome, int quantidade)
-    {
-
-    }
 }
