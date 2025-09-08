@@ -31,7 +31,7 @@
                FontFamily="Gagalin-Regular"
                PlaceholderColor="#999"
                HeightRequest="50"
-               WidthRequest="100"/>
+               WidthRequest="330"/>
 
         <!-- Campo de senha -->
         <Entry x:Name="SenhaEntry"
@@ -42,7 +42,7 @@
                FontFamily="Gagalin-Regular"
                PlaceholderColor="#999"
                HeightRequest="50"
-               WidthRequest="100"/>
+               WidthRequest="330"/>
 
         <!-- Botão de Login -->
         <Button Text="ENTRAR"
@@ -52,6 +52,7 @@
                 CornerRadius="20"
                 HeightRequest="55"
                 Margin="0,15"
+                WidthRequest="330"
                 Clicked="OnLoginClicked"/>
 
         <!-- Botão de Registro -->
@@ -61,6 +62,7 @@
                 TextColor="White"
                 CornerRadius="20"
                 HeightRequest="55"
+                WidthRequest="330"
                 Clicked="OnRegisterClicked"/>
 
     </VerticalStackLayout>

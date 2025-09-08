@@ -23,7 +23,7 @@ public partial class Login : ContentPage
         {
             await DisplayAlert("Sucesso", "Login realizado!", "OK");
             // Vai para a tela principal
-            Application.Current.MainPage = new AppShell();
+            Navigation.PushAsync(new TelaInicial());
         }
         else
         {

@@ -6,7 +6,7 @@
     Shell.FlyoutBehavior="Disabled"
     Title="MauiAppArvoredo">
 
-    <ShellContent Route="Login" ContentTemplate="{DataTemplate local:Inicio}" Shell.NavBarIsVisible="False"/>
+    <ShellContent Route="Login" ContentTemplate="{DataTemplate local:Inicio}"/>
 
 
 </Shell>
