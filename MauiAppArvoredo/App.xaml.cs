@@ -16,11 +16,5 @@ public partial class App : Application
         string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "app.db3");
         var db = new Helpers.DatabaseService(dbPath);
         var usuarioExiste = await db.GetUsuarioAsync("admin@teste.com", "1234");
-
-        if (usuarioExiste == null)
-        {
-            // redireciona para a tela de login
-            await Shell.Current.GoToAsync("//Inicio");
-        }
     }
 }
