@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppArvoredo.Views.Estoque"
+             Title="Estoque"
              Shell.NavBarIsVisible="False">
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -10,15 +11,8 @@
             <GradientStop Color="#b47b39" Offset="0.7"/>
         </LinearGradientBrush>
     </ContentPage.Background>
-    <VerticalStackLayout>
-        <StackLayout>
-            <Button ImageSource="seta.png" BackgroundColor="Transparent" WidthRequest="60" HorizontalOptions="Start" x:Name="voltar" Clicked="voltar_Clicked" Margin="3,0,0,0"/>
-        </StackLayout>
-        <StackLayout Margin="0,100,0,0" x:Name="StackPrincipal">
-            <Label Text="ESTOQUE" x:Name="estoque"  HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="40" TextColor="#391b01" Margin="0,0,0,0"/>
-
-            
-
-        </StackLayout>
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout x:Name="StackPrincipal" Padding="20" Spacing="10">
+        </VerticalStackLayout>        
+    </ScrollView>
 </ContentPage>

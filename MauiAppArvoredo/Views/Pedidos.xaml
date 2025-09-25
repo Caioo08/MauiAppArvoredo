@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppArvoredo.Views.Pedidos"
              Title="Pedidos"
+             BackgroundColor="White"
              Shell.NavBarIsVisible="False">
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -11,13 +11,40 @@
             <GradientStop Color="#b47b39" Offset="0.7"/>
         </LinearGradientBrush>
     </ContentPage.Background>
-    <VerticalStackLayout>
-        <StackLayout>
-            <Button ImageSource="seta.png" BackgroundColor="Transparent" WidthRequest="60" HorizontalOptions="Start" x:Name="voltar" Clicked="voltar_Clicked" Margin="3,0,0,0"/>
-        </StackLayout>
-        <StackLayout Margin="0,100,0,0" x:Name="myLayout">
-            <Label Text="Pedidos" x:Name="pedido" HorizontalOptions="Center"  FontFamily="Gagalin-Regular" FontSize="40" TextColor="#391b01" Margin="0,0,0,50"/>
 
-        </StackLayout>
+    <VerticalStackLayout Margin="4,4,0,0" Spacing="15">
+
+        <!-- Linha de Botões -->
+        <HorizontalStackLayout>
+            <Button Text="Sair" Clicked="BtnSair_Clicked"
+                    BackgroundColor="#391b01" TextColor="White" CornerRadius="10"
+                    WidthRequest="150" HeightRequest="45" Margin="0,0,4,0"/>   
+            <Button Text="Novo Pedido" Clicked="BtnNovoPedido_Clicked"
+                    BackgroundColor="#391b01" TextColor="White" CornerRadius="10"
+                    WidthRequest="150" HeightRequest="45"/>
+        </HorizontalStackLayout>
+
+        <!-- Lista de Pedidos -->
+        <CollectionView x:Name="ListaPedidos" SelectionMode="Single" HeightRequest="500">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#efd4ac" CornerRadius="10" Margin="0,5" Padding="10">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Cliente}" FontAttributes="Bold" TextColor="#391b01"/>
+                            <Label Text="{Binding Status}" TextColor="#391b01"/>
+                            <HorizontalStackLayout Spacing="10">
+                                <Button Text="Dar Baixa" Clicked="BtnDarBaixa_Clicked"
+                                        BackgroundColor="#391b01" TextColor="White"
+                                        BorderColor="White" BorderWidth="2" CornerRadius="10"/>
+                                <Button Text="Detalhes" Clicked="BtnDetalhes_Clicked"
+                                        BackgroundColor="#391b01" TextColor="White"
+                                        BorderColor="White" BorderWidth="2" CornerRadius="10"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </VerticalStackLayout>
 </ContentPage>

@@ -68,6 +68,9 @@
 	  <MauiXaml Update="Views\EditarEstoque.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\EditarPedido.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Estoque.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

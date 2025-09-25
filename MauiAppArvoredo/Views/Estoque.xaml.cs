@@ -4,166 +4,39 @@ namespace MauiAppArvoredo.Views;
 
 public partial class Estoque : ContentPage
 {
-    private List<Button> todosBotoes = new List<Button>();
-    public static string[] madeiras = { "Eucalipto", "Peroba", "Pau Brasil", "Carvalho", "Jatoba", "Nogueira" };
-    public static string[] tipos = { "Viga", "Ripa", "Tábua" };
-    public static string[] tamanhos_viga = { "6 metros", "7 metros", "9 metros" };
-    public static string[] tamanhos_ripa = { "20x30", "12x07", "45x12" };
-    public static string[] tamanhos_tabua = { "6 metros", "7 metros", "9 metros" };
+    private List<Madeira> madeiras;
+    private Dictionary<int, StackLayout> expanders = new Dictionary<int, StackLayout>();
 
     public Estoque()
     {
         InitializeComponent();
-        CriarBotoesDinamicamente();
     }
 
-    // M?todo chamado quando a p?gina aparece (para atualizar os dados)
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        // Atualizar a interface se necess?rio
-    }
 
-    private void voltar_Clicked(object sender, EventArgs e)
-    {
-        try
+        // Botão Sair no topo
+        var btnSair = new Button
         {
-            Navigation.PushAsync(new TelaInicial());
-        }
-        catch (Exception ex)
-        {
-            DisplayAlert("Não encontrado", ex.Message, "OK");
-        }
-    }
-
-    private void CriarBotoesDinamicamente()
-    {
-        // Cria bot?es em la?o com base na lista
-        for (int i = 0; i < madeiras.Length; i++)
-        {
-            // Cria uma nova inst?ncia de bot?o
-            Button novoBtn = new Button
-            {
-                Text = madeiras[i],
-                BackgroundColor = Color.FromArgb("#efd4ac"),
-                TextColor = Color.FromArgb("#391b01"),
-                CornerRadius = 12,
-                WidthRequest = 320,
-                HeightRequest = 60,
-                FontSize = 20,
-                Margin = new Thickness(0, 5),
-                BorderColor = Colors.Brown,
-                BorderWidth = 1
-            };
-
-            // Adiciona um id ao bot?o para identifica??o
-            int index = i; // Capturar o valor de i para o closure do evento
-
-            // Adiciona o evento de clique
-            novoBtn.Clicked += (sender, e) =>
-            {
-                EsconderBotoes();
-                BotaoClicado(sender, index);
-            };
-
-            todosBotoes.Add(novoBtn);
-
-            // Adiciona o bot?o ao container
-            StackPrincipal.Add(novoBtn);
-        }
-    }
-
-    private void EsconderBotoes()
-    {
-        // Esconde todos os bot?es
-        foreach (Button btn in todosBotoes)
-        {
-            btn.IsVisible = false;
-        }
-        estoque.IsVisible = false;
-    }
-
-    private void MostrarBotoes()
-    {
-        // Torna todos os bot?es vis?veis novamente
-        foreach (Button btn in todosBotoes)
-        {
-            btn.IsVisible = true;
-        }
-        estoque.IsVisible = true;
-    }
-
-    private void BotaoClicado(object sender, int index)
-    {
-        Button botaoClicado = (Button)sender;
-        string madeiraSelecionada = botaoClicado.Text;
-
-        // Criar um StackLayout personalizado
-        StackLayout expandableSection = new StackLayout
-        {
-            HorizontalOptions = LayoutOptions.Center,
-            BackgroundColor = Color.FromArgb("#efd4ac"),
-            WidthRequest = 320,
-            Margin = new Thickness(0, -10, 0, 0)
-        };
-
-        // Cabe?alho
-        HorizontalStackLayout header = new HorizontalStackLayout
-        {
-            HorizontalOptions = LayoutOptions.Center
-        };
-
-        header.Add(new Label
-        {
-            Text = $"Estoque de {botaoClicado.Text}",
-            FontSize = 24,
+            Text = "Sair",
+            BackgroundColor = Colors.Transparent,
+            BorderColor = Color.FromArgb("#391b01"),
+            BorderWidth = 2,
+            CornerRadius = 10,
             TextColor = Color.FromArgb("#391b01"),
-            FontFamily = "Gagalin-Regular",
-            HorizontalOptions = LayoutOptions.Center,
-            FontAttributes = FontAttributes.Bold
-        });
-
-        expandableSection.Add(header);
-
-        // MODIFICA??O: Criar linhas dinamicamente com dados salvos
-        CriarLinhasEstoque(expandableSection, madeiraSelecionada);
-
-        // Adicionar bot?o de fechar
-        Button btnFechar = new Button
-        {
-            Text = "Fechar",
-            BackgroundColor = Color.FromArgb("#391b01"),
-            TextColor = Colors.White,
-            HorizontalOptions = LayoutOptions.Center,
-            Padding = new Thickness(10, 5),
+            FontSize = 18,
+            FontAttributes = FontAttributes.Bold,
             WidthRequest = 150,
-            Margin = new Thickness(0, 10, 0, 5)
+            HorizontalOptions = LayoutOptions.Start,
+            Margin = new Thickness(0, 10, 0, 10)
         };
 
-        Button btnEditar = new Button
-        {
-            Text = "Editar",
-            BackgroundColor = Color.FromArgb("#391b01"),
-            TextColor = Colors.White,
-            HorizontalOptions = LayoutOptions.Center,
-            Padding = new Thickness(10, 5),
-            WidthRequest = 150,
-            Margin = new Thickness(0, 10, 0, 5)
-        };
-
-        btnFechar.Clicked += (s, e) =>
-        {
-            // Remover o StackLayout quando o bot?o de fechar for clicado
-            StackPrincipal.Remove(expandableSection);
-            MostrarBotoes();
-        };
-
-        // Passar o texto do bot?o clicado para EditarEstoque
-        btnEditar.Clicked += (s, e) =>
+        btnSair.Clicked += async (s, e) =>
         {
             try
             {
-                Navigation.PushAsync(new EditarEstoque(botaoClicado.Text));
+                Navigation.PushAsync(new TelaInicial());
             }
             catch (Exception ex)
             {
@@ -171,93 +44,151 @@ public partial class Estoque : ContentPage
             }
         };
 
-        expandableSection.Add(btnFechar);
-        expandableSection.Add(btnEditar);
+        // Adiciona no topo do StackPrincipal
+        StackPrincipal.Children.Clear();
+        StackPrincipal.Children.Add(btnSair);
 
-        // Adicionar o StackLayout ao mesmo container onde os bot?es est?o
-        StackPrincipal.Add(expandableSection);
+        await CarregarMadeiras();
     }
 
-    // NOVO M?TODO: Criar linhas do estoque com dados salvos
-    private void CriarLinhasEstoque(StackLayout container, string madeira)
+    private async Task CarregarMadeiras()
     {
-        // Obter dados salvos para esta madeira
-        var dadosSalvos = DadosEstoque.ObterQuantidadesPorMadeira(madeira);
+        // Remove expanders antigos, mas mantém o botão Sair no topo
+        var btnSair = StackPrincipal.Children.FirstOrDefault() as Button;
+        StackPrincipal.Children.Clear();
+        expanders.Clear();
+        if (btnSair != null)
+            StackPrincipal.Children.Add(btnSair);
 
-        foreach (string tipo in tipos)
+        madeiras = await App.Database.GetMadeirasAsync();
+
+        foreach (var madeira in madeiras)
         {
-            // Criar linha para cada tipo (Viga, Ripa, Tábua)
-            HorizontalStackLayout linha = new HorizontalStackLayout
-            {
-                HorizontalOptions = LayoutOptions.Center,
-                Margin = new Thickness(0, 5)
-            };
+            var btn = CriarBotaoMadeira(madeira);
+            StackPrincipal.Children.Add(btn);
+        }
+    }
 
-            // Label do tipo
-            linha.Add(new Label
-            {
-                Text = tipo,
-                FontFamily = "Gagalin-Regular",
-                FontSize = 20,
-                TextColor = Color.FromArgb("#391b01"),
-                HorizontalOptions = LayoutOptions.Start,
-                VerticalOptions = LayoutOptions.Center,
-                Margin = new Thickness(10, 0, 0, 0)
-            });
+    private Button CriarBotaoMadeira(Madeira madeira)
+    {
+        var btn = new Button
+        {
+            Text = madeira.Nome,
+            BackgroundColor = Color.FromArgb("#391b01"),
+            TextColor = Colors.White,
+            FontSize = 18,
+            FontAttributes = FontAttributes.Bold,
+            WidthRequest = 320,
+            HorizontalOptions = LayoutOptions.Center,
+            Margin = new Thickness(0, 5, 0, 0)
+        };
 
-            // Criar se??o de quantidades para este tipo
-            StackLayout secaoQuantidades = new StackLayout
+        btn.Clicked += async (s, e) =>
+        {
+            if (expanders.ContainsKey(madeira.Id))
             {
-                HorizontalOptions = LayoutOptions.End,
-                Spacing = 3
-            };
-
-            // Obter tamanhos baseado no tipo
-            string[] tamanhos = tipo switch
-            {
-                "Viga" => tamanhos_viga,
-                "Ripa" => tamanhos_ripa,
-                "Tábua" => tamanhos_tabua,
-                _ => new string[0]
-            };
-
-            // Criar labels para cada tamanho
-            bool temDados = false;
-            foreach (string tamanho in tamanhos)
-            {
-                int quantidade = DadosEstoque.ObterQuantidade(madeira, tipo, tamanho);
-                if (quantidade > 0)
-                {
-                    temDados = true;
-                    Label labelQuantidade = new Label
-                    {
-                        Text = $"   {tamanho}: {quantidade}",
-                        FontFamily = "Gagalin-Regular",
-                        FontSize = 18,
-                        TextColor = Color.FromArgb("#391b01"),
-                        HorizontalOptions = LayoutOptions.Center
-                    };
-                    secaoQuantidades.Add(labelQuantidade);
-                }
+                StackPrincipal.Children.Remove(expanders[madeira.Id]);
+                expanders.Remove(madeira.Id);
+                return;
             }
 
-            // Se Não tem dados salvos, mostrar "QTD" como antes
-            if (!temDados)
-            {
-                Label labelPadrao = new Label
-                {
-                    Text = " QTD",
-                    FontFamily = "Gagalin-Regular",
-                    FontSize = 20,
-                    TextColor = Color.FromArgb("#391b01"),
-                    HorizontalOptions = LayoutOptions.End,
-                    VerticalOptions = LayoutOptions.Center
-                };
-                secaoQuantidades.Add(labelPadrao);
-            }
+            var expandable = await CriarExpandable(madeira, btn);
+            int index = StackPrincipal.Children.IndexOf(btn);
+            StackPrincipal.Children.Insert(index + 1, expandable);
+            expanders[madeira.Id] = expandable;
+        };
 
-            linha.Add(secaoQuantidades);
-            container.Add(linha);
+        return btn;
+    }
+
+    private async Task<StackLayout> CriarExpandable(Madeira madeira, Button btn)
+    {
+        var expandable = new StackLayout
+        {
+            HorizontalOptions = LayoutOptions.Center,
+            BackgroundColor = Color.FromArgb("#efd4ac"),
+            WidthRequest = 320,
+            Margin = new Thickness(0, -10, 0, 0),
+            Padding = new Thickness(10),
+            Spacing = 10
+        };
+
+        expandable.Children.Add(new Label
+        {
+            Text = $"Estoque de {madeira.Nome}",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            FontAttributes = FontAttributes.Bold,
+            HorizontalOptions = LayoutOptions.Center
+        });
+
+        await AtualizarItens(expandable, madeira);
+
+        var btnAdd = new Button
+        {
+            Text = "Adicionar Item",
+            BackgroundColor = Color.FromArgb("#391b01"),
+            TextColor = Colors.White,
+            HorizontalOptions = LayoutOptions.Center,
+            WidthRequest = 150,
+            Margin = new Thickness(0, 10, 0, 0)
+        };
+
+        btnAdd.Clicked += async (s, e) =>
+        {
+            await Navigation.PushAsync(new EditarEstoque(madeira));
+        };
+        expandable.Children.Add(btnAdd);
+
+        var btnFechar = new Button
+        {
+            Text = "Fechar",
+            BackgroundColor = Color.FromArgb("#391b01"),
+            TextColor = Colors.White,
+            HorizontalOptions = LayoutOptions.Center,
+            WidthRequest = 150,
+            Margin = new Thickness(0, 10, 0, 5)
+        };
+
+        btnFechar.Clicked += (s, e) =>
+        {
+            StackPrincipal.Children.Remove(expandable);
+            expanders.Remove(madeira.Id);
+        };
+        expandable.Children.Add(btnFechar);
+
+        return expandable;
+    }
+
+    public static async Task AtualizarItens(StackLayout expandable, Madeira madeira)
+    {
+        expandable.Children.Clear();
+
+        expandable.Children.Add(new Label
+        {
+            Text = $"Estoque de {madeira.Nome}",
+            FontSize = 24,
+            TextColor = Color.FromArgb("#391b01"),
+            FontAttributes = FontAttributes.Bold,
+            HorizontalOptions = LayoutOptions.Center
+        });
+
+        var itens = await App.Database.GetItensByMadeiraAsync(madeira.Id);
+        foreach (var item in itens)
+        {
+            var frame = new Frame
+            {
+                BorderColor = Colors.Transparent,
+                Padding = 10,
+                Margin = new Thickness(0, 5),
+                BackgroundColor = Colors.Transparent
+            };
+            var vstack = new VerticalStackLayout();
+            vstack.Add(new Label { Text = $"Formato: {item.Formato}", FontAttributes = FontAttributes.Bold, TextColor = Color.FromArgb("#391b01") });
+            vstack.Add(new Label { Text = $"Tamanho: {item.Tamanho}", TextColor = Color.FromArgb("#391b01") });
+            vstack.Add(new Label { Text = $"Quantidade: {item.Quantidade}", TextColor = Color.FromArgb("#391b01") });
+            frame.Content = vstack;
+            expandable.Children.Add(frame);
         }
     }
 }

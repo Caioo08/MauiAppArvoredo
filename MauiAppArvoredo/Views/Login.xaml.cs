@@ -56,4 +56,16 @@ public partial class Login : ContentPage
             await DisplayAlert("Erro", "Esse email já está registrado", "OK");
         }
     }
+    private void OnSairClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Navigation.PushAsync(new Inicio());
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Não encontrado", ex.Message, "OK");
+        }
+    }
+
 }

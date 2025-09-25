@@ -13,57 +13,85 @@
         </LinearGradientBrush>
     </ContentPage.Background>
 
-    <VerticalStackLayout VerticalOptions="Center">
+    <!-- Layout principal -->
+    <Grid>
+        <!-- Botão sair no topo esquerdo -->
+        <ImageButton Source="seta.png"
+                BackgroundColor="Transparent"
+                WidthRequest="40"
+                HeightRequest="40"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Margin="10"
+                Clicked="OnSairClicked"/>
 
-        <!-- Título estilizado -->
-        <Label Text="LOGIN"
-               FontFamily="Gagalin-Regular"
-               FontSize="40"
-               HorizontalOptions="Center"
-               TextColor="#391b01"
-               Margin="0,0,0,10"/>
+        <!-- Conteúdo central -->
+        <VerticalStackLayout VerticalOptions="Center">
 
-        <!-- Campo de email -->
-        <Entry x:Name="EmailEntry"
-               Placeholder="Digite seu email"
-               BackgroundColor="White"
-               TextColor="Black"
-               FontFamily="Gagalin-Regular"
-               PlaceholderColor="#999"
-               HeightRequest="50"
-               WidthRequest="330"/>
+            <!-- Título estilizado -->
+            <Label Text="LOGIN"
+                   FontFamily="Gagalin-Regular"
+                   FontSize="40"
+                   HorizontalOptions="Center"
+                   TextColor="#391b01"
+                   Margin="0,0,0,10"/>
 
-        <!-- Campo de senha -->
-        <Entry x:Name="SenhaEntry"
-               Placeholder="Digite sua senha"
-               IsPassword="True"
-               BackgroundColor="White"
-               TextColor="Black"
-               FontFamily="Gagalin-Regular"
-               PlaceholderColor="#999"
-               HeightRequest="50"
-               WidthRequest="330"/>
+            <!-- Campo de email -->
+            <Entry x:Name="EmailEntry"
+                   Placeholder="Digite seu email"
+                   TextColor="Black"
+                   FontFamily="Gagalin-Regular"
+                   HeightRequest="50"
+                   WidthRequest="330"
+                   PlaceholderColor="Black">
+                <Entry.BackgroundColor>
+                    <OnPlatform x:TypeArguments="Color">
+                        <On Platform="WinUI" Value="White"/>
+                        <On Platform="Android" Value="Transparent"/>
+                    </OnPlatform>
+                </Entry.BackgroundColor>
+            </Entry>
+            <BoxView HeightRequest="2" BackgroundColor="Black" WidthRequest="330"/>
 
-        <!-- Botão de Login -->
-        <Button Text="ENTRAR"
-                FontFamily="Gagalin-Regular"
-                BackgroundColor="#391b01"
-                TextColor="White"
-                CornerRadius="20"
-                HeightRequest="55"
-                Margin="0,15"
-                WidthRequest="330"
-                Clicked="OnLoginClicked"/>
+            <!-- Campo de senha -->
+            <Entry x:Name="SenhaEntry"
+                   Placeholder="Digite sua senha"
+                   IsPassword="True"
+                   TextColor="Black"
+                   FontFamily="Gagalin-Regular"
+                   PlaceholderColor="Black"
+                   HeightRequest="50"
+                   WidthRequest="330">
+                <Entry.BackgroundColor>
+                    <OnPlatform x:TypeArguments="Color">
+                        <On Platform="WinUI" Value="White"/>
+                        <On Platform="Android" Value="Transparent"/>
+                    </OnPlatform>
+                </Entry.BackgroundColor>
+            </Entry>
+            <BoxView HeightRequest="2" BackgroundColor="Black" WidthRequest="330"/>
 
-        <!-- Botão de Registro -->
-        <Button Text="REGISTRAR"
-                FontFamily="Gagalin-Regular"
-                BackgroundColor="#d4a373"
-                TextColor="White"
-                CornerRadius="20"
-                HeightRequest="55"
-                WidthRequest="330"
-                Clicked="OnRegisterClicked"/>
+            <!-- Botão de Login -->
+            <Button Text="ENTRAR"
+                    FontFamily="Gagalin-Regular"
+                    BackgroundColor="#391b01"
+                    TextColor="White"
+                    CornerRadius="20"
+                    HeightRequest="55"
+                    Margin="0,15"
+                    WidthRequest="330"
+                    Clicked="OnLoginClicked"/>
 
-    </VerticalStackLayout>
+            <!-- Botão de Registro -->
+            <Button Text="REGISTRAR"
+                    FontFamily="Gagalin-Regular"
+                    BackgroundColor="#d4a373"
+                    TextColor="White"
+                    CornerRadius="20"
+                    HeightRequest="55"
+                    WidthRequest="330"
+                    Clicked="OnRegisterClicked"/>
+
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppArvoredo.Views.EditarEstoque"
-              Shell.NavBarIsVisible="False">
+             Title="EditarEstoque"
+             Shell.NavBarIsVisible="False">
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#fae6c2" Offset="0.1"/>
@@ -10,9 +11,43 @@
             <GradientStop Color="#b47b39" Offset="0.7"/>
         </LinearGradientBrush>
     </ContentPage.Background>
-    <VerticalStackLayout>
-        <StackLayout x:Name="Stackprincipal"  Margin="0,300,0,0">
-            
-        </StackLayout>
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Label Text="Formato da Peça" TextColor="#391b01" WidthRequest="330"/>
+        <Picker x:Name="FormatoPicker" TextColor="White" WidthRequest="330" BackgroundColor="#391b01">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Ripa</x:String>
+                    <x:String>Tábua</x:String>
+                    <x:String>Viga</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+            <Picker.BackgroundColor>
+                <OnPlatform x:TypeArguments="Color">
+                    <On Platform="Android" Value="Transparent"/>
+                </OnPlatform>
+            </Picker.BackgroundColor>
+        </Picker>
+
+        <Label Text="Tamanho" TextColor="#391b01" WidthRequest="330"/>
+        <Picker x:Name="TamanhoPicker" TextColor="White" WidthRequest="330" BackgroundColor="#391b01">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>2m x 10cm</x:String>
+                    <x:String>3m x 15cm</x:String>
+                    <x:String>4m x 20cm</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+            <Picker.BackgroundColor>
+                <OnPlatform x:TypeArguments="Color">
+                    <On Platform="Android" Value="Transparent"/>
+                </OnPlatform>
+            </Picker.BackgroundColor>
+        </Picker>
+
+        <Label Text="Quantidade" TextColor="#391b01" WidthRequest="330"/>
+        <Entry x:Name="QuantidadeEntry" Keyboard="Numeric" Placeholder="Ex: 10" TextColor="#391b01" PlaceholderColor="#391b01" WidthRequest="330"/>
+
+        <Button Text="Salvar Item" Clicked="OnSaveClicked" WidthRequest="150" BackgroundColor="#391b01" TextColor="White"/>
+        <Button Text="Sair" Clicked="Sair"  WidthRequest="150" BackgroundColor="#FF2222" TextColor="White"/>
     </VerticalStackLayout>
 </ContentPage>
