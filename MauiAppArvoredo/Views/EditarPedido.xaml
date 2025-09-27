@@ -29,6 +29,14 @@
                     </OnPlatform>
                 </Entry.PlaceholderColor>
             </Entry>
+            <BoxView HeightRequest="2" WidthRequest="330">
+                <BoxView.BackgroundColor>
+                    <OnPlatform x:TypeArguments="Color">
+                        <On Platform="WinUI" Value="Transparent"/>
+                        <On Platform="Android" Value="Black"/>
+                    </OnPlatform>
+                </BoxView.BackgroundColor>
+            </BoxView>
 
             <!-- Tipo de Madeira -->
             <Label Text="Tipo de Madeira" FontAttributes="Bold" FontSize="18" WidthRequest="330" TextColor="#391b01"/>
@@ -74,6 +82,14 @@
                     </OnPlatform>
                 </Entry.PlaceholderColor>
             </Entry>
+            <BoxView HeightRequest="2" WidthRequest="330">
+                <BoxView.BackgroundColor>
+                    <OnPlatform x:TypeArguments="Color">
+                        <On Platform="WinUI" Value="Transparent"/>
+                        <On Platform="Android" Value="Black"/>
+                    </OnPlatform>
+                </BoxView.BackgroundColor>
+            </BoxView>
 
             <!-- Botao Adicionar Item -->
             <Button Text="Adicionar Item" Clicked="BtnAdicionarItem_Clicked"
@@ -87,7 +103,7 @@
                     <DataTemplate>
                         <Frame BackgroundColor="#efd4ac" CornerRadius="10" Margin="0,5" Padding="10" WidthRequest="330">
                             <HorizontalStackLayout>
-                                <Label Text="{Binding Nome}" FontAttributes="Bold" TextColor="#391b01"/>
+                                <Label Text="{Binding Nome}" FontAttributes="Bold" TextColor="#391b01" Margin="0,0,10,0"/>
                                 <Label Text="{Binding Quantidade}" TextColor="#391b01" HorizontalOptions="EndAndExpand"/>
                             </HorizontalStackLayout>
                         </Frame>

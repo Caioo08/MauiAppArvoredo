@@ -1,5 +1,4 @@
-using MauiAppArvoredo.Models;
-using MauiAppArvoredo.Helpers;
+ï»¿using MauiAppArvoredo.Models;
 
 namespace MauiAppArvoredo.Views;
 
@@ -37,7 +36,8 @@ public partial class EditarPedido : ContentPage
 
     private void CarregarFormatos()
     {
-        PickerFormato.ItemsSource = new List<string> { "Tábua", "Viga", "Ripa" };
+        // ðŸ”¹ Formatos fixos, sem depender do estoque
+        PickerFormato.ItemsSource = new List<string> { "TÃ¡bua", "Viga", "Ripa" };
     }
 
     private async void PickerMadeira_SelectedIndexChanged(object sender, EventArgs e)
@@ -51,7 +51,7 @@ public partial class EditarPedido : ContentPage
         var madeiraSelecionada = madeiras[PickerMadeira.SelectedIndex];
         var itensEstoque = await App.Database.GetItensByMadeiraAsync(madeiraSelecionada.Id);
 
-        // Extrai tamanhos disponíveis no estoque
+        // ðŸ”¹ Apenas pega todos os tamanhos cadastrados no banco, sem restringir por formato
         var tamanhos = itensEstoque
             .Where(i => !string.IsNullOrWhiteSpace(i.Tamanho))
             .Select(i => i.Tamanho.Trim())
@@ -75,7 +75,7 @@ public partial class EditarPedido : ContentPage
 
         if (!int.TryParse(EntryQuantidade.Text, out int qtd) || qtd <= 0)
         {
-            DisplayAlert("Erro", "Informe uma quantidade válida", "OK");
+            DisplayAlert("Erro", "Informe uma quantidade vÃ¡lida", "OK");
             return;
         }
 
@@ -121,6 +121,7 @@ public partial class EditarPedido : ContentPage
 
         await Navigation.PopAsync();
     }
+
     private void BtnSair_Clicked(object sender, EventArgs e)
     {
         try
@@ -129,7 +130,7 @@ public partial class EditarPedido : ContentPage
         }
         catch (Exception ex)
         {
-            DisplayAlert("Não encontrado", ex.Message, "OK");
+            DisplayAlert("NÃ£o encontrado", ex.Message, "OK");
         }
     }
 }

@@ -1,4 +1,4 @@
-using MauiAppArvoredo.Models;
+﻿using MauiAppArvoredo.Models;
 using Microsoft.Maui.Controls;
 
 namespace MauiAppArvoredo.Views;
@@ -36,12 +36,52 @@ public partial class Pedidos : ContentPage
 
         if (pedido != null)
         {
-            pedido.Status = "Conclu�do";
+            // 🔹 Carrega os itens do pedido
+            var itensPedido = await App.Database.GetItensByPedidoAsync(pedido.Id);
+
+            foreach (var itemPedido in itensPedido)
+            {
+                // Nome do itemPedido está no formato "Madeira - Formato - Tamanho"
+                var partes = itemPedido.Nome.Split(" - ");
+                if (partes.Length < 3) continue;
+
+                string nomeMadeira = partes[0];
+                string formato = partes[1];
+                string tamanho = partes[2];
+
+                // Localiza a madeira
+                var madeira = (await App.Database.GetMadeirasAsync())
+                              .FirstOrDefault(m => m.Nome == nomeMadeira);
+
+                if (madeira != null)
+                {
+                    // Busca item correspondente no estoque
+                    var itensEstoque = await App.Database.GetItensByMadeiraAsync(madeira.Id);
+                    var itemEstoque = itensEstoque
+                        .FirstOrDefault(i => i.Formato == formato && i.Tamanho == tamanho);
+
+                    if (itemEstoque != null)
+                    {
+                        // Desconta a quantidade
+                        itemEstoque.Quantidade -= itemPedido.Quantidade;
+                        if (itemEstoque.Quantidade < 0)
+                            itemEstoque.Quantidade = 0; // evita valores negativos
+
+                        await App.Database.SaveItemMadeiraAsync(itemEstoque);
+                    }
+                }
+            }
+
+            // Atualiza status do pedido
+            pedido.Status = "Concluído";
             await App.Database.UpdatePedidoAsync(pedido);
 
+            // Atualiza lista na tela
             pedidos.Remove(pedido);
             ListaPedidos.ItemsSource = null;
             ListaPedidos.ItemsSource = pedidos.Where(p => p.Status == "Pendente").ToList();
+
+            await DisplayAlert("Sucesso", "Pedido concluído e estoque atualizado!", "OK");
         }
     }
 
@@ -64,7 +104,7 @@ public partial class Pedidos : ContentPage
         }
         catch (Exception ex)
         {
-            DisplayAlert("N�o encontrado", ex.Message, "OK");
+            DisplayAlert("Não encontrado", ex.Message, "OK");
         }
     }
 }

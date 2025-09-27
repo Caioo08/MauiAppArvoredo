@@ -26,6 +26,11 @@
                     <On Platform="Android" Value="Transparent"/>
                 </OnPlatform>
             </Picker.BackgroundColor>
+            <Picker.TextColor>
+                <OnPlatform x:TypeArguments="Color">
+                    <On Platform="Android" Value="Black"/>
+                </OnPlatform>
+            </Picker.TextColor>
         </Picker>
 
         <Label Text="Tamanho" TextColor="#391b01" WidthRequest="330"/>
@@ -42,10 +47,23 @@
                     <On Platform="Android" Value="Transparent"/>
                 </OnPlatform>
             </Picker.BackgroundColor>
+            <Picker.TextColor>
+                <OnPlatform x:TypeArguments="Color">
+                    <On Platform="Android" Value="Black"/>
+                </OnPlatform>
+            </Picker.TextColor>
         </Picker>
 
         <Label Text="Quantidade" TextColor="#391b01" WidthRequest="330"/>
         <Entry x:Name="QuantidadeEntry" Keyboard="Numeric" Placeholder="Ex: 10" TextColor="#391b01" PlaceholderColor="#391b01" WidthRequest="330"/>
+        <BoxView HeightRequest="2" WidthRequest="330">
+            <BoxView.BackgroundColor>
+                <OnPlatform x:TypeArguments="Color">
+                    <On Platform="WinUI" Value="Transparent"/>
+                    <On Platform="Android" Value="Black"/>
+                </OnPlatform>
+            </BoxView.BackgroundColor>
+        </BoxView>
 
         <Button Text="Salvar Item" Clicked="OnSaveClicked" WidthRequest="150" BackgroundColor="#391b01" TextColor="White"/>
         <Button Text="Sair" Clicked="Sair"  WidthRequest="150" BackgroundColor="#FF2222" TextColor="White"/>
