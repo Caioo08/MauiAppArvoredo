@@ -12,7 +12,6 @@ public partial class EditarPedido : ContentPage
     {
         InitializeComponent();
         CarregarMadeiras();
-        CarregarFormatos();
 
         if (pedido != null)
         {
@@ -34,16 +33,11 @@ public partial class EditarPedido : ContentPage
         PickerMadeira.ItemsSource = madeiras.Select(m => m.Nome).ToList();
     }
 
-    private void CarregarFormatos()
-    {
-        // 🔹 Formatos fixos, sem depender do estoque
-        PickerFormato.ItemsSource = new List<string> { "Tábua", "Viga", "Ripa" };
-    }
-
     private async void PickerMadeira_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (PickerMadeira.SelectedIndex == -1)
         {
+            PickerFormato.ItemsSource = null;
             PickerTamanho.ItemsSource = null;
             return;
         }
@@ -51,15 +45,25 @@ public partial class EditarPedido : ContentPage
         var madeiraSelecionada = madeiras[PickerMadeira.SelectedIndex];
         var itensEstoque = await App.Database.GetItensByMadeiraAsync(madeiraSelecionada.Id);
 
-        // 🔹 Apenas pega todos os tamanhos cadastrados no banco, sem restringir por formato
+        // 🔹 Apenas formatos com estoque disponível (> 0)
+        var formatos = itensEstoque
+            .Where(i => !string.IsNullOrWhiteSpace(i.Formato) && i.Quantidade > 0)
+            .Select(i => i.Formato.Trim())
+            .Distinct()
+            .ToList();
+
+        // 🔹 Apenas tamanhos com estoque disponível (> 0)
         var tamanhos = itensEstoque
-            .Where(i => !string.IsNullOrWhiteSpace(i.Tamanho))
+            .Where(i => !string.IsNullOrWhiteSpace(i.Tamanho) && i.Quantidade > 0)
             .Select(i => i.Tamanho.Trim())
             .Distinct()
             .ToList();
 
         Dispatcher.Dispatch(() =>
         {
+            PickerFormato.ItemsSource = formatos;
+            PickerFormato.SelectedIndex = formatos.Count > 0 ? 0 : -1;
+
             PickerTamanho.ItemsSource = tamanhos;
             PickerTamanho.SelectedIndex = tamanhos.Count > 0 ? 0 : -1;
         });
@@ -79,6 +83,22 @@ public partial class EditarPedido : ContentPage
             return;
         }
 
+        // 🔹 Verificar estoque antes de adicionar
+        var madeiraSelecionada = madeiras[PickerMadeira.SelectedIndex];
+        var formatoSelecionado = PickerFormato.SelectedItem?.ToString();
+        var tamanhoSelecionado = PickerTamanho.SelectedItem?.ToString();
+
+        var itensEstoque = App.Database.GetItensByMadeiraAsync(madeiraSelecionada.Id).Result;
+        var itemEstoque = itensEstoque.FirstOrDefault(i =>
+            i.Formato.Trim() == formatoSelecionado &&
+            i.Tamanho.Trim() == tamanhoSelecionado);
+
+        if (itemEstoque == null || itemEstoque.Quantidade < qtd)
+        {
+            DisplayAlert("Erro", "Quantidade solicitada maior que a disponível no estoque", "OK");
+            return;
+        }
+
         var itemNome = $"{PickerMadeira.SelectedItem} - {PickerFormato.SelectedItem} - {PickerTamanho.SelectedItem}";
 
         itens.Add(new ItemPedido
@@ -93,7 +113,7 @@ public partial class EditarPedido : ContentPage
         // Limpa campos
         EntryQuantidade.Text = "";
         PickerMadeira.SelectedIndex = -1;
-        PickerFormato.SelectedIndex = -1;
+        PickerFormato.ItemsSource = null;
         PickerTamanho.ItemsSource = null;
     }
 

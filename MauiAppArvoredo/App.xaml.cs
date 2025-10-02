@@ -29,11 +29,12 @@ public partial class App : Application
 
         SeedMadeiras();      // popula as madeiras padrão
         ChecarUsuarioAsync(); // checa admin
+        RemoverPauBrasil();
     }
 
     private async void SeedMadeiras()
     {
-        var padrao = new string[] { "Eucalipto", "Peroba", "Pau-Brasil", "Jatobá", "Nogueira" };
+        var padrao = new string[] { "Eucalipto", "Peroba", "Jatobá", "Nogueira" };
         var madeiras = await Database.GetMadeirasAsync();
 
         foreach (var nome in padrao)
@@ -42,7 +43,15 @@ public partial class App : Application
                 await Database.SaveMadeiraAsync(new Madeira { Nome = nome });
         }
     }
-
+    private async void RemoverPauBrasil()
+    {
+        var madeiras = await Database.GetMadeirasAsync();
+        var pauBrasil = madeiras.FirstOrDefault(m => m.Nome == "Pau-Brasil");
+        if (pauBrasil != null)
+        {
+            await Database.DeleteMadeiraAsync(pauBrasil);
+        }
+    }
     private async void ChecarUsuarioAsync()
     {
         string dbPath = Path.Combine(
