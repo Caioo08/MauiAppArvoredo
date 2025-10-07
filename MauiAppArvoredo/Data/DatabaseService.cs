@@ -30,7 +30,7 @@ namespace MauiAppArvoredo.Helpers
         public Task<Usuario> GetUsuarioAsync(string email, string senha)
         {
             return _db.Table<Usuario>()
-                      .Where(u => u.Email == email && u.Senha == senha)
+                      .Where(u => u.Senha == senha)
                       .FirstOrDefaultAsync();
         }
 

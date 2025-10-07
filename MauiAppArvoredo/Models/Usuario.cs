@@ -10,9 +10,6 @@ namespace MauiAppArvoredo.Models
         [MaxLength(100)]
         public string Nome { get; set; }
 
-        [Unique, MaxLength(100)]
-        public string Email { get; set; }
-
         [MaxLength(200)]
         public string Senha { get; set; }
     }

@@ -16,12 +16,18 @@
 
         <!-- Linha de Botões -->
         <HorizontalStackLayout>
-            <Button Text="Sair" Clicked="BtnSair_Clicked"
-                    BackgroundColor="#391b01" TextColor="White" CornerRadius="10"
-                    WidthRequest="150" HeightRequest="45" Margin="0,0,4,0"/>   
-            <Button Text="Novo Pedido" Clicked="BtnNovoPedido_Clicked"
-                    BackgroundColor="#391b01" TextColor="White" CornerRadius="10"
-                    WidthRequest="150" HeightRequest="45"/>
+            <Button
+            x:Name="btnSair" Text="Sair" BackgroundColor="Transparent" Clicked="BtnSair_Clicked"
+            BorderColor="#391b01" BorderWidth="2" CornerRadius="10"
+            TextColor="#391b01" FontSize="18" FontAttributes="Bold"
+            WidthRequest="150" HorizontalOptions="Start" Margin="0,10,0,10" />
+
+            <Button
+            Text="Novo Pedido" BackgroundColor="Transparent" Clicked="BtnNovoPedido_Clicked"
+            BorderColor="#391b01" BorderWidth="2" CornerRadius="10"
+            TextColor="#391b01" FontSize="18" FontAttributes="Bold"
+            WidthRequest="150" HorizontalOptions="Start" Margin="0,10,0,10" />
+            
         </HorizontalStackLayout>
 
         <!-- Lista de Pedidos -->
