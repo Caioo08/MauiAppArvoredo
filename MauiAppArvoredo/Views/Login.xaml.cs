@@ -42,7 +42,6 @@ public partial class Login : ContentPage
         var usuario = new Usuario
         {
             Nome = EmailEntry.Text, // Pode usar o próprio email como nome por enquanto
-            Email = EmailEntry.Text,
             Senha = SenhaEntry.Text
         };
 

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiAppArvoredo.Views.InfoPage"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#fae6c2" Offset="0.1"/>
+            <GradientStop Color="#c68f56" Offset="0.4"/>
+            <GradientStop Color="#b47b39" Offset="0.7"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Botão Voltar -->
+        <ImageButton Grid.Row="0"
+                     Source="seta.png"
+                     BackgroundColor="Transparent"
+                     WidthRequest="40"
+                     HeightRequest="40"
+                     HorizontalOptions="Start"
+                     VerticalOptions="Start"
+                     Clicked="OnBackClicked" />
+
+        <!-- Logo e Título -->
+        <VerticalStackLayout Grid.Row="1"
+                             Spacing="10"
+                             HorizontalOptions="Center"
+                             Margin="0,20,0,0">
+
+            <!-- Logo (você precisará adicionar a imagem ao projeto) -->
+            <Image Source="simbolo.png"
+                   WidthRequest="200"
+                   HeightRequest="150"
+                   Aspect="AspectFit" />
+
+            <Label Text="ARVOREDO MOBILE"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#3D2817"
+                   HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+
+        <!-- Card de Informações -->
+        <Frame Grid.Row="2"
+               BackgroundColor="#E8D5B7"
+               CornerRadius="20"
+               Padding="30"
+               Margin="20,40,20,20"
+               HasShadow="True"
+               VerticalOptions="Start">
+
+            <VerticalStackLayout Spacing="20">
+
+                <Label x:Name="lblUltimaSincronizacao"
+                       FontSize="16"
+                       TextColor="#3D2817"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="Versão do programa: 1.0"
+                       FontSize="16"
+                       TextColor="#3D2817"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="Telefone para contato: 10987-6543"
+                       FontSize="16"
+                       TextColor="#3D2817"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="Atualizações pendentes: nenhuma"
+                       FontSize="16"
+                       TextColor="#3D2817"
+                       HorizontalTextAlignment="Center" />
+
+                <BoxView HeightRequest="1"
+                         Color="#3D2817"
+                         Opacity="0.3"
+                         Margin="0,20,0,10" />
+
+                <Label Text="Desenvolvido por Marcio's Company"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#3D2817"
+                       HorizontalTextAlignment="Center" />
+
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Rodapé -->
+        <Label Grid.Row="3"
+               x:Name="lblSincronizadoDesde"
+               FontSize="14"
+               TextColor="#3D2817"
+               HorizontalTextAlignment="Center"
+               Margin="0,0,0,20" />
+
+    </Grid>
+
+</ContentPage>

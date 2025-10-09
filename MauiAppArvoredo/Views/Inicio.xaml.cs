@@ -1,4 +1,5 @@
 using MauiAppArvoredo.Models;
+using MauiAppArvoredo.Views;
 namespace MauiAppArvoredo;
 
 public partial class Inicio : ContentPage
@@ -40,8 +41,15 @@ public partial class Inicio : ContentPage
 
     }
 
-    private void configuracoes_Clicked(object sender, EventArgs e)
+    private void sobre_Clicked(object sender, EventArgs e)
     {
-
+        try
+        {
+            Navigation.PushAsync(new InfoPage());
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Não encontrado", ex.Message, "OK");
+        }
     }
 }
