@@ -23,7 +23,7 @@
             WidthRequest="150" HorizontalOptions="Start" Margin="0,10,0,10" />
 
             <Button
-            Text="Novo Pedido" BackgroundColor="Transparent" Clicked="BtnNovoPedido_Clicked"
+            Text="Novo Pedido" BackgroundColor="Transparent" Clicked="BtnNovoPedido_Clicked" IsVisible="False"
             BorderColor="#391b01" BorderWidth="2" CornerRadius="10"
             TextColor="#391b01" FontSize="18" FontAttributes="Bold"
             WidthRequest="150" HorizontalOptions="Start" Margin="0,10,0,10" />
