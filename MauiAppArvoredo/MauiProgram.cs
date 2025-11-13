@@ -1,6 +1,6 @@
-﻿
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
+using MauiAppArvoredo.Services;
 
 namespace MauiAppArvoredo
 {
@@ -18,15 +18,22 @@ namespace MauiAppArvoredo
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            // 🔹 REGISTRO DO SERVIÇO DA API ARVOREDO
+            builder.Services.AddSingleton<ArvoredoApiService>();
+
+#if DEBUG
+            builder.Logging.AddDebug();
+#endif
+
             // Remove apenas a borda/linha de foco
             EntryHandler.Mapper.AppendToMapping("NoFocusBorder", (handler, view) =>
             {
 #if ANDROID
-            handler.PlatformView.Background = null; // remove underline/focus color
+                handler.PlatformView.Background = null; // remove underline/focus color
 #elif IOS || MACCATALYST
                 handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None; // tira a borda azul
 #elif WINDOWS
-            handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+                handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
 #endif
             });
 
