@@ -40,7 +40,6 @@
             <Entry x:Name="EmailEntry"
                    Placeholder="Digite seu email"
                    TextColor="Black"
-                   FontFamily="Gagalin-Regular"
                    HeightRequest="50"
                    WidthRequest="330"
                    PlaceholderColor="Black">
@@ -65,7 +64,6 @@
                    Placeholder="Digite sua senha"
                    IsPassword="True"
                    TextColor="Black"
-                   FontFamily="Gagalin-Regular"
                    PlaceholderColor="Black"
                    HeightRequest="50"
                    WidthRequest="330">

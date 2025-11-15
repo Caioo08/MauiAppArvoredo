@@ -139,10 +139,6 @@
                                FontAttributes="Bold"
                                TextColor="#391b01"
                                HorizontalOptions="Center"/>
-                        <Label Text="Os pedidos da API aparecerão aqui"
-                               FontSize="14"
-                               TextColor="#666"
-                               HorizontalOptions="Center"/>
                     </VerticalStackLayout>
                 </CollectionView.EmptyView>
             </CollectionView>
