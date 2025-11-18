@@ -19,7 +19,7 @@ namespace MauiAppArvoredo
                 });
 
             // 🔹 REGISTRO DO SERVIÇO DA API ARVOREDO
-            builder.Services.AddSingleton<ArvoredoApiService>();
+            builder.Services.AddSingleton<ApiClient>();
 
 #if DEBUG
             builder.Logging.AddDebug();

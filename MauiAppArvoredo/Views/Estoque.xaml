@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppArvoredo.Views.Estoque"
              Title="Estoque"
              Shell.NavBarIsVisible="False">
+
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#fae6c2" Offset="0.1"/>
@@ -11,8 +11,20 @@
             <GradientStop Color="#b47b39" Offset="0.7"/>
         </LinearGradientBrush>
     </ContentPage.Background>
-    <ScrollView>
-        <VerticalStackLayout x:Name="StackPrincipal" Padding="20" Spacing="10">
-        </VerticalStackLayout>        
-    </ScrollView>
+
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Botões -->
+            <RowDefinition Height="*"/>
+            <!-- Lista de produtos -->
+        </Grid.RowDefinitions>
+
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" Margin="0,0,0,10">
+        </HorizontalStackLayout>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout x:Name="StackPrincipal" Spacing="10"/>
+        </ScrollView>
+    </Grid>
 </ContentPage>

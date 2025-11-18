@@ -1,15 +1,17 @@
 using MauiAppArvoredo.Views;
+using MauiAppArvoredo.Services;
 
 namespace MauiAppArvoredo;
 
 public partial class TelaInicial : ContentPage
 {
+    private readonly ApiClient _api;
+
     public TelaInicial()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
-        var login = new Login();
-
+        _api = new ApiClient(); // Cria a instância do cliente API
     }
 
     private void sair_Clicked(object sender, EventArgs e)
@@ -28,7 +30,8 @@ public partial class TelaInicial : ContentPage
     {
         try
         {
-            Navigation.PushAsync(new Estoque());
+            // Passa a instância do ApiClient para a página Estoque
+            Navigation.PushAsync(new Estoque(_api));
         }
         catch (Exception ex)
         {

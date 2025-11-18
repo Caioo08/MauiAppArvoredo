@@ -1,68 +1,77 @@
 using MauiAppArvoredo.Models;
+using MauiAppArvoredo.Services;
+using System.Linq;
 
 namespace MauiAppArvoredo.Views;
 
 public partial class EditarEstoque : ContentPage
 {
-    private Madeira madeiraAtual;
+    private Produto _produto;
+    private readonly ApiClient _api;
 
-    public EditarEstoque(Madeira madeira)
+    public EditarEstoque(Produto produto, ApiClient apiClient)
     {
         InitializeComponent();
-        madeiraAtual = madeira;
+
+        _produto = produto ?? new Produto();
+        _api = apiClient;
+
+        // Preenche campos (se vierem nulos, colocamos valores seguros)
+        entryDescricao.Text = _produto.Nome ?? "";
+        entryQuantidade.Text = _produto.Quantidade.ToString();
+        entryQuantidadeMin.Text = _produto.QuantidadeMin.ToString();
+        entryUnidade.Text = _produto.Unidade ?? "";
+        entryValor.Text = _produto.Valor.ToString("F2");
     }
 
-    private void Sair(object sender, EventArgs e)
+    private async void BtnSalvar_Clicked(object sender, EventArgs e)
     {
         try
         {
-            Navigation.PushAsync(new Estoque());
+            // Validações simples
+            _produto.Nome = entryDescricao.Text?.Trim() ?? "";
+            _produto.Quantidade = int.TryParse(entryQuantidade.Text, out var q) ? q : 0;
+            _produto.QuantidadeMin = int.TryParse(entryQuantidadeMin.Text, out var qm) ? qm : 0;
+            _produto.Unidade = entryUnidade.Text?.Trim() ?? "";
+            _produto.Valor = double.TryParse(entryValor.Text, out var v) ? v : 0.0;
+
+            (bool ok, string body) result;
+            if (_produto.Id == 0)
+            {
+                result = await _api.AddProdutoAsync(_produto);
+            }
+            else
+            {
+                result = await _api.UpdateProdutoAsync(_produto.Id, _produto);
+            }
+
+            if (!result.ok)
+            {
+                // mostra mensagem de erro retornada pela API
+                await DisplayAlert("Erro ao salvar", result.body, "OK");
+                return;
+            }
+
+            await DisplayAlert("Sucesso", "Produto salvo com sucesso!", "OK");
+
+            // força atualização quando voltar: busca a instância Estoque na pilha e chama o método público
+            var estoquePage = Navigation.NavigationStack.OfType<Estoque>().FirstOrDefault();
+            if (estoquePage != null)
+            {
+                await estoquePage.CarregarProdutosAsync();
+            }
+
+            await Navigation.PopAsync();
         }
         catch (Exception ex)
         {
-            DisplayAlert("Página não encontrada", ex.Message, "OK");
+            await DisplayAlert("Exceção", ex.Message + "\n" + ex.ToString(), "OK");
         }
     }
 
-    async void OnSaveClicked(object sender, EventArgs e)
+    private async void Voltar_Clicked(object sender, EventArgs e)
     {
-        if (FormatoPicker.SelectedItem == null ||
-            TamanhoPicker.SelectedItem == null ||
-            string.IsNullOrWhiteSpace(QuantidadeEntry.Text))
-        {
-            await DisplayAlert("Erro", "Preencha todos os campos!", "OK");
-            return;
-        }
-
-        string formato = FormatoPicker.SelectedItem.ToString();
-        string tamanho = TamanhoPicker.SelectedItem.ToString();
-        int quantidade = int.Parse(QuantidadeEntry.Text);
-
-        // Verifica se já existe item desse formato+tamanho para a madeira
-        var itensExistentes = await App.Database.GetItensByMadeiraAsync(madeiraAtual.Id);
-        var existente = itensExistentes.FirstOrDefault(i => i.Formato == formato && i.Tamanho == tamanho);
-
-        if (existente != null)
-        {
-            // Atualiza o existente
-            existente.Quantidade = quantidade;
-            await App.Database.SaveItemMadeiraAsync(existente);
-        }
-        else
-        {
-            // Cria novo
-            var item = new ItemMadeira
-            {
-                MadeiraId = madeiraAtual.Id,
-                Formato = formato,
-                Tamanho = tamanho,
-                Quantidade = quantidade
-            };
-
-            await App.Database.SaveItemMadeiraAsync(item);
-        }
-
-        await DisplayAlert("Sucesso", "Item cadastrado!", "OK");
+        // sempre pop, não push
         await Navigation.PopAsync();
     }
 }
