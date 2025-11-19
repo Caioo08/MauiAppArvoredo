@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiAppArvoredo.Views.DetalhesVenda"
+             Title="Detalhes da Venda"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#fae6c2" Offset="0.1"/>
+            <GradientStop Color="#c68f56" Offset="0.4"/>
+            <GradientStop Color="#b47b39" Offset="0.7"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView Padding="20">
+
+        <VerticalStackLayout Spacing="20">
+
+            <Button Text="← Voltar"
+                    BackgroundColor="#391b01"
+                    TextColor="White"
+                    CornerRadius="15"
+                    Clicked="OnVoltarClicked"/>
+
+            <Frame BackgroundColor="#efd4ac"
+                   Padding="20"
+                   CornerRadius="15">
+
+                <Label Text="{Binding NomeCliente}"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="#391b01"/>
+
+                <Label Text="{Binding DataFormatada}"
+                       FontSize="16"
+                       TextColor="#391b01"
+                       Opacity="0.6"/>
+
+                <Label Text="{Binding ValorFormatado}"
+                       FontSize="22"
+                       TextColor="#391b01"
+                       FontAttributes="Bold"
+                       Margin="0,10,0,0"/>
+            </Frame>
+
+            <Frame BackgroundColor="#efd4ac"
+                   Padding="20"
+                   CornerRadius="15">
+
+                <Label Text="Itens da Venda"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="#391b01"
+                       Margin="0,0,0,10"/>
+
+                <CollectionView ItemsSource="{Binding Itens}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="2*,*,*" RowDefinitions="Auto" Padding="5">
+
+                                <Label Grid.Column="0"
+                                       Text="{Binding NomeProduto}"
+                                       FontSize="16"
+                                       TextColor="#391b01"/>
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding Quantidade}"
+                                       FontSize="14"
+                                       TextColor="#391b01"
+                                       HorizontalTextAlignment="Center"/>
+
+                                <Label Grid.Column="2"
+                                       Text="{Binding ValorTotal, StringFormat='R$ {0:N2}'}"
+                                       FontSize="16"
+                                       TextColor="#391b01"
+                                       HorizontalOptions="End"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

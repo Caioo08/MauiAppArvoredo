@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiAppArvoredo.Views.DetalhesVenda"
+             Title="Detalhes da Venda"
+             Shell.NavBarIsVisible="False">
+
+    <!-- Fundo degradê igual ao Estoque -->
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#fae6c2" Offset="0.1"/>
+            <GradientStop Color="#c68f56" Offset="0.4"/>
+            <GradientStop Color="#b47b39" Offset="0.7"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Botões -->
+            <RowDefinition Height="*"/>
+            <!-- Conteúdo -->
+        </Grid.RowDefinitions>
+
+        <!-- TOPO COM BOTÕES -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" Margin="0,0,0,10">
+            <Button Text="Voltar"
+                    BackgroundColor="#391b01"
+                    TextColor="White"
+                    CornerRadius="15"
+                    HeightRequest="48"
+                    Clicked="OnVoltarClicked" />
+        </HorizontalStackLayout>
+
+        <!-- SCROLL PRINCIPAL -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="15">
+
+                <!-- CARD PRINCIPAL -->
+                <Frame BackgroundColor="#fae6c2"
+                       BorderColor="#c68f56"
+                       CornerRadius="20"
+                       Padding="20"
+                       HasShadow="True"
+                       Margin="0,0,0,10">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label Text="Detalhes da Venda"
+                               FontFamily="GagalinRegular"
+                               FontSize="26"
+                               TextColor="#391b01"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,10"/>
+
+                        <Label FontFamily="GagalinRegular" FontSize="20" Text="Código:" TextColor="#391b01"/>
+                        <Label FontSize="18" Text="{Binding Id}"/>
+
+                        <Label FontFamily="GagalinRegular" FontSize="20" Text="Cliente:" TextColor="#391b01"/>
+                        <Label FontSize="18" Text="{Binding Cliente}"/>
+
+                        <Label FontFamily="GagalinRegular" FontSize="20" Text="Data:" TextColor="#391b01"/>
+                        <Label FontSize="18" Text="{Binding Data}"/>
+
+                        <Label FontFamily="GagalinRegular" FontSize="20" Text="Valor Total:" TextColor="#391b01"/>
+                        <Label FontSize="18" Text="{Binding ValorTotal, StringFormat='R$ {0:F2}'}"/>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

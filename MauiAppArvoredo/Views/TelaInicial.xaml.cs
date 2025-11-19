@@ -43,7 +43,7 @@ public partial class TelaInicial : ContentPage
     {
         try
         {
-            Navigation.PushAsync(new Pedidos());
+            Navigation.PushAsync(new Vendas());
         }
         catch (Exception ex)
         {
