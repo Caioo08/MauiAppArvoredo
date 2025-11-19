@@ -2,6 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 using MauiAppArvoredo.Models;
+using System.Xml;
 
 namespace MauiAppArvoredo.Services
 {
@@ -36,7 +37,7 @@ namespace MauiAppArvoredo.Services
                 var json = JsonConvert.SerializeObject(vendaDto, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
-                    Formatting = Formatting.Indented
+                    Formatting = Newtonsoft.Json.Formatting.Indented
                 });
 
                 System.Diagnostics.Debug.WriteLine($"📤 POST /vendas");
@@ -159,7 +160,7 @@ namespace MauiAppArvoredo.Services
         {
             try
             {
-                var payload = new { pago = true };
+                var payload = new { pago = true, dataPagamento = DateTime.Now };
                 var json = JsonConvert.SerializeObject(payload);
 
                 System.Diagnostics.Debug.WriteLine($"📤 PUT /vendas/{vendaId}");

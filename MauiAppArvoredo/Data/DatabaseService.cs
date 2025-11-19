@@ -21,9 +21,6 @@ namespace MauiAppArvoredo.Helpers
             _db.CreateTableAsync<Pedido>().Wait();
             _db.CreateTableAsync<ItemPedido>().Wait();
 
-            // 🔥 NOVAS TABELAS DE VENDAS
-            _db.CreateTableAsync<Venda>().Wait();
-            _db.CreateTableAsync<ItemVenda>().Wait();
         }
 
         // ======== USUÁRIOS ========

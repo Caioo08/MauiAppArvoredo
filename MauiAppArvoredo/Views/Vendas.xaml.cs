@@ -1,19 +1,20 @@
 using MauiAppArvoredo.Models;
 using MauiAppArvoredo.Services;
+using System.Collections.ObjectModel;
 
 namespace MauiAppArvoredo.Views
 {
     public partial class Vendas : ContentPage
     {
-        private readonly VendaApiService _apiService;
-        private List<Venda> _todasVendas = new List<Venda>();
-        private List<Venda> _vendasExibidas = new List<Venda>();
-        private string _filtroAtivo = "todas"; // todas, pendentes, pagas
+        private readonly VendaApiService _vendaService;
+        private ObservableCollection<Venda> _todasVendas;
+        private string _filtroAtual = "todas"; // todas, pendentes, pagas
 
         public Vendas()
         {
             InitializeComponent();
-            _apiService = new VendaApiService();
+            _vendaService = new VendaApiService();
+            _todasVendas = new ObservableCollection<Venda>();
         }
 
         protected override async void OnAppearing()
@@ -23,33 +24,53 @@ namespace MauiAppArvoredo.Views
         }
 
         // ================================
-        // CARREGAMENTO DE DADOS
+        // CARREGAR VENDAS DA API
         // ================================
 
-        /// <summary>
-        /// Carrega vendas do banco local e da API
-        /// </summary>
         private async Task CarregarVendasAsync()
         {
             try
             {
                 MostrarLoading("Carregando vendas...");
 
-                // Carrega vendas locais
-                _todasVendas = await App.Database.GetVendasAsync();
+                // Chama o serviço para listar vendas da API
+                var (sucesso, vendasApi, erro) = await _vendaService.ListarVendasAsync();
 
-                // Tenta sincronizar com API
-                await SincronizarComApiAsync(mostrarMensagem: false);
+                if (sucesso && vendasApi != null)
+                {
+                    _todasVendas.Clear();
 
-                // Aplica filtro ativo
-                AplicarFiltro();
+                    foreach (var vendaApi in vendasApi)
+                    {
+                        // Converte cada item da API para o modelo Venda
+                        var venda = new Venda
+                        {
+                            Id = vendaApi.Id,               // Id local (pode ser igual ao da API)
+                            ApiId = vendaApi.Id,            // Id usado para abrir detalhes
+                            NomeCliente = vendaApi.Nome ?? "Cliente não informado",
+                            ValorTotal = vendaApi.ValorTotal,
+                            DataCriacao = vendaApi.DataCriacao,
+                            Pago = vendaApi.Pago,
+                            FormaPagamento = vendaApi.Forma ?? "Não informado",
+                            Descricao = vendaApi.Descricao ?? ""
+                        };
 
-                // Atualiza resumo
-                AtualizarResumo();
+                        _todasVendas.Add(venda);
+                    }
+
+                    // Aplica o filtro atual (Todas, Pendentes, Pagas)
+                    AplicarFiltro(_filtroAtual);
+                    AtualizarResumo();
+                }
+                else
+                {
+                    await DisplayAlert("Erro", erro ?? "Não foi possível carregar as vendas", "OK");
+                    ListaVendas.ItemsSource = new List<Venda>();
+                }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Erro", $"Erro ao carregar vendas:\n{ex.Message}", "OK");
+                await DisplayAlert("Erro", $"Erro ao carregar vendas: {ex.Message}", "OK");
             }
             finally
             {
@@ -57,104 +78,26 @@ namespace MauiAppArvoredo.Views
             }
         }
 
-        /// <summary>
-        /// Sincroniza vendas com a API
-        /// </summary>
-        private async Task SincronizarComApiAsync(bool mostrarMensagem = true)
+
+        // ================================
+        // CONVERTER DADOS DA API
+        // ================================
+
+        private Venda ConverterParaVendaLocal(VendaApiResponse vendaApi)
         {
-            try
+            return new Venda
             {
-                if (mostrarMensagem)
-                    MostrarLoading("Sincronizando...");
-
-                var resultado = await _apiService.ListarVendasAsync();
-
-                if (resultado.sucesso && resultado.vendas != null)
-                {
-                    // Converte vendas da API para modelo local
-                    foreach (var vendaApi in resultado.vendas)
-                    {
-                        // Verifica se já existe localmente
-                        var existente = _todasVendas.FirstOrDefault(v => v.ApiId == vendaApi.Id);
-
-                        if (existente == null)
-                        {
-                            // Cria nova venda local
-                            var novaVenda = new Venda
-                            {
-                                ApiId = vendaApi.Id,
-                                Descricao = vendaApi.Descricao,
-                                UsuarioId = vendaApi.UsuarioId,
-                                ClienteId = vendaApi.ClienteId,
-                                ValorTotal = vendaApi.ValorTotal,
-                                DataCriacao = vendaApi.DataCriacao,
-                                DataPagamento = vendaApi.DataPagamento,
-                                Pago = vendaApi.Pago,
-                                FormaPagamento = vendaApi.Forma ?? "Dinheiro",
-                                NomeCliente = ExtrairNomeCliente(vendaApi.Descricao),
-                                Sincronizado = true
-                            };
-
-                            await App.Database.SaveVendaAsync(novaVenda);
-
-                            // Salva itens
-                            if (vendaApi.VendaE != null)
-                            {
-                                foreach (var itemApi in vendaApi.VendaE)
-                                {
-                                    var item = new ItemVenda
-                                    {
-                                        VendaId = novaVenda.Id,
-                                        ProdutoId = itemApi.ProdutoId,
-                                        Quantidade = itemApi.Quantidade,
-                                        ValorVenda = itemApi.ValorVenda,
-                                        ValorTotal = itemApi.ValorTotal,
-                                        NomeProduto = itemApi.Produto?.Nome ?? "Produto",
-                                        Unidade = itemApi.Produto?.Unidade ?? "un"
-                                    };
-
-                                    await App.Database.SaveItemVendaAsync(item);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // Atualiza venda existente
-                            existente.Pago = vendaApi.Pago;
-                            existente.DataPagamento = vendaApi.DataPagamento;
-                            existente.Sincronizado = true;
-
-                            await App.Database.UpdateVendaAsync(existente);
-                        }
-                    }
-
-                    // Recarrega lista atualizada
-                    _todasVendas = await App.Database.GetVendasAsync();
-
-                    if (mostrarMensagem)
-                    {
-                        await DisplayAlert("Sucesso",
-                            $"? {resultado.vendas.Count} venda(s) sincronizada(s)",
-                            "OK");
-                    }
-                }
-                else if (mostrarMensagem && !string.IsNullOrEmpty(resultado.erro))
-                {
-                    await DisplayAlert("Aviso",
-                        $"Não foi possível sincronizar:\n{resultado.erro}",
-                        "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                if (mostrarMensagem)
-                {
-                    await DisplayAlert("Erro",
-                        $"Erro ao sincronizar:\n{ex.Message}",
-                        "OK");
-                }
-            }
+                Id = vendaApi.Id,
+                NomeCliente = vendaApi.Nome ?? "Cliente não informado",
+                ValorTotal = vendaApi.ValorTotal,
+                Pago = vendaApi.Pago,
+                DataCriacao = vendaApi.DataCriacao,
+                FormaPagamento = vendaApi.Forma ?? "Não informado",
+                Descricao = vendaApi.Descricao ?? "",
+                ApiId = vendaApi.Id
+            };
         }
+
 
         // ================================
         // FILTROS
@@ -162,28 +105,53 @@ namespace MauiAppArvoredo.Views
 
         private void OnFiltroTodasClicked(object sender, EventArgs e)
         {
-            _filtroAtivo = "todas";
+            _filtroAtual = "todas";
+            AplicarFiltro("todas");
             AtualizarBotoesFiltro();
-            AplicarFiltro();
         }
 
         private void OnFiltroPendentesClicked(object sender, EventArgs e)
         {
-            _filtroAtivo = "pendentes";
+            _filtroAtual = "pendentes";
+            AplicarFiltro("pendentes");
             AtualizarBotoesFiltro();
-            AplicarFiltro();
         }
 
         private void OnFiltroPagasClicked(object sender, EventArgs e)
         {
-            _filtroAtivo = "pagas";
+            _filtroAtual = "pagas";
+            AplicarFiltro("pagas");
             AtualizarBotoesFiltro();
-            AplicarFiltro();
+        }
+
+        private void AplicarFiltro(string filtro)
+        {
+            List<Venda> vendasFiltradas;
+
+            switch (filtro)
+            {
+                case "pendentes":
+                    vendasFiltradas = _todasVendas.Where(v => !v.Pago).ToList();
+                    lblMensagemVazia.Text = "Nenhuma venda pendente";
+                    break;
+
+                case "pagas":
+                    vendasFiltradas = _todasVendas.Where(v => v.Pago).ToList();
+                    lblMensagemVazia.Text = "Nenhuma venda paga";
+                    break;
+
+                default: // todas
+                    vendasFiltradas = _todasVendas.ToList();
+                    lblMensagemVazia.Text = "Nenhuma venda encontrada";
+                    break;
+            }
+
+            ListaVendas.ItemsSource = vendasFiltradas;
         }
 
         private void AtualizarBotoesFiltro()
         {
-            // Reset todos os botões
+            // Reset todos
             btnTodas.BackgroundColor = Colors.Transparent;
             btnTodas.TextColor = Color.FromArgb("#391b01");
             btnTodas.BorderColor = Color.FromArgb("#391b01");
@@ -199,10 +167,9 @@ namespace MauiAppArvoredo.Views
             btnPagas.BorderColor = Color.FromArgb("#391b01");
             btnPagas.BorderWidth = 1;
 
-            // Ativa botão selecionado
-            Button btnAtivo = _filtroAtivo switch
+            // Ativa o selecionado
+            Button btnAtivo = _filtroAtual switch
             {
-                "todas" => btnTodas,
                 "pendentes" => btnPendentes,
                 "pagas" => btnPagas,
                 _ => btnTodas
@@ -213,55 +180,35 @@ namespace MauiAppArvoredo.Views
             btnAtivo.BorderWidth = 0;
         }
 
-        private void AplicarFiltro()
-        {
-            _vendasExibidas = _filtroAtivo switch
-            {
-                "pendentes" => _todasVendas.Where(v => !v.Pago).ToList(),
-                "pagas" => _todasVendas.Where(v => v.Pago).ToList(),
-                _ => _todasVendas.ToList()
-            };
-
-            ListaVendas.ItemsSource = _vendasExibidas;
-
-            // Atualiza mensagem quando vazio
-            lblMensagemVazia.Text = _filtroAtivo switch
-            {
-                "pendentes" => "Nenhuma venda pendente",
-                "pagas" => "Nenhuma venda paga",
-                _ => "Sincronize para carregar vendas da API"
-            };
-        }
-
         // ================================
-        // RESUMO E ESTATÍSTICAS
+        // ATUALIZAR RESUMO
         // ================================
 
         private void AtualizarResumo()
         {
-            lblTotalVendas.Text = _todasVendas.Count.ToString();
-            lblValorTotal.Text = $"R$ {_todasVendas.Sum(v => v.ValorTotal):N2}";
-            lblVendasPendentes.Text = _todasVendas.Count(v => !v.Pago).ToString();
+            int totalVendas = _todasVendas.Count;
+            double valorTotal = _todasVendas.Sum(v => v.ValorTotal);
+            int vendasPendentes = _todasVendas.Count(v => !v.Pago);
+
+            lblTotalVendas.Text = totalVendas.ToString();
+            lblValorTotal.Text = $"R$ {valorTotal:N2}";
+            lblVendasPendentes.Text = vendasPendentes.ToString();
         }
 
         // ================================
-        // EVENTOS
+        // SINCRONIZAR COM API
         // ================================
-
-        private async void OnVendaSelecionada(object sender, TappedEventArgs e)
-        {
-            if (sender is Frame frame && frame.BindingContext is Venda venda)
-            {
-                await Navigation.PushAsync(new DetalhesVenda(venda));
-            }
-        }
 
         private async void OnSincronizarClicked(object sender, EventArgs e)
         {
-            await SincronizarComApiAsync(mostrarMensagem: true);
-            AplicarFiltro();
-            AtualizarResumo();
+            await CarregarVendasAsync();
+            await DisplayAlert("Sucesso", "Vendas sincronizadas com sucesso!", "OK");
         }
+
+
+        // ================================
+        // VOLTAR
+        // ================================
 
         private async void OnVoltarClicked(object sender, EventArgs e)
         {
@@ -269,7 +216,7 @@ namespace MauiAppArvoredo.Views
         }
 
         // ================================
-        // HELPERS
+        // LOADING
         // ================================
 
         private void MostrarLoading(string mensagem)
@@ -281,27 +228,6 @@ namespace MauiAppArvoredo.Views
         private void EsconderLoading()
         {
             LoadingOverlay.IsVisible = false;
-        }
-
-        private string ExtrairNomeCliente(string descricao)
-        {
-            if (string.IsNullOrEmpty(descricao))
-                return "Cliente";
-
-            // Tenta extrair nome após " - "
-            if (descricao.Contains(" - "))
-            {
-                var partes = descricao.Split(" - ");
-                return partes.Length > 1 ? partes[1] : descricao;
-            }
-
-            // Tenta extrair nome após "Venda "
-            if (descricao.Contains("Venda "))
-            {
-                return descricao.Replace("Venda ", "").Trim();
-            }
-
-            return descricao;
         }
     }
 }
