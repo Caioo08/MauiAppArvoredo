@@ -5,7 +5,6 @@
              Title="Detalhes da Venda"
              Shell.NavBarIsVisible="False">
 
-    <!-- Fundo degradê igual ao Estoque -->
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#fae6c2" Offset="0.1"/>
@@ -16,60 +15,291 @@
 
     <Grid Padding="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Botões -->
+            <RowDefinition Height="60"/>
+            <!-- Header -->
             <RowDefinition Height="*"/>
             <!-- Conteúdo -->
+            <RowDefinition Height="Auto"/>
+            <!-- Botões de ação -->
         </Grid.RowDefinitions>
 
-        <!-- TOPO COM BOTÕES -->
-        <HorizontalStackLayout Grid.Row="0" Spacing="10" Margin="0,0,0,10">
-            <Button Text="Voltar"
-                    BackgroundColor="#391b01"
-                    TextColor="White"
-                    CornerRadius="15"
-                    HeightRequest="48"
-                    Clicked="OnVoltarClicked" />
-        </HorizontalStackLayout>
+        <!-- ===== HEADER ===== -->
+        <Grid Grid.Row="0">
+            <ImageButton Source="seta.png"
+                        BackgroundColor="Transparent"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Clicked="OnVoltarClicked"/>
 
-        <!-- SCROLL PRINCIPAL -->
+            <Label Text="DETALHES DA VENDA"
+                   FontFamily="GagalinRegular"
+                   FontSize="22"
+                   TextColor="#391b01"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+        </Grid>
+
+        <!-- ===== CONTEÚDO ===== -->
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Spacing="15">
 
-                <!-- CARD PRINCIPAL -->
-                <Frame BackgroundColor="#fae6c2"
-                       BorderColor="#c68f56"
-                       CornerRadius="20"
+                <!-- CARD PRINCIPAL DA VENDA -->
+                <Frame BackgroundColor="#efd4ac"
+                       CornerRadius="15"
                        Padding="20"
-                       HasShadow="True"
-                       Margin="0,0,0,10">
+                       Margin="0,10,0,0"
+                       HasShadow="False">
+
+                    <VerticalStackLayout Spacing="15">
+
+                        <!-- Cliente -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Cliente"
+                                   FontSize="14"
+                                   TextColor="#391b01"
+                                   Opacity="0.6"/>
+                            <Label x:Name="lblCliente"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="#391b01"/>
+                        </VerticalStackLayout>
+
+                        <BoxView HeightRequest="1"
+                                 Color="#391b01"
+                                 Opacity="0.2"/>
+
+                        <!-- Data e Status -->
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                <Label Text="Data da Venda"
+                                       FontSize="14"
+                                       TextColor="#391b01"
+                                       Opacity="0.6"/>
+                                <Label x:Name="lblData"
+                                       FontSize="16"
+                                       TextColor="#391b01"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="Status"
+                                       FontSize="14"
+                                       TextColor="#391b01"
+                                       Opacity="0.6"
+                                       HorizontalTextAlignment="End"/>
+                                <Label x:Name="lblStatus"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       HorizontalTextAlignment="End"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <BoxView HeightRequest="1"
+                                 Color="#391b01"
+                                 Opacity="0.2"/>
+
+                        <!-- Forma de Pagamento -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Forma de Pagamento"
+                                   FontSize="14"
+                                   TextColor="#391b01"
+                                   Opacity="0.6"/>
+                            <Label x:Name="lblFormaPagamento"
+                                   FontSize="16"
+                                   TextColor="#391b01"/>
+                        </VerticalStackLayout>
+
+                        <BoxView HeightRequest="1"
+                                 Color="#391b01"
+                                 Opacity="0.2"/>
+
+                        <!-- Valor Total -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Valor Total"
+                                   FontSize="14"
+                                   TextColor="#391b01"
+                                   Opacity="0.6"/>
+                            <Label x:Name="lblValorTotal"
+                                   FontSize="28"
+                                   FontAttributes="Bold"
+                                   TextColor="#391b01"/>
+                        </VerticalStackLayout>
+
+                        <!-- Data de Pagamento (se pago) -->
+                        <VerticalStackLayout x:Name="containerDataPagamento"
+                                           Spacing="5"
+                                           IsVisible="False">
+                            <BoxView HeightRequest="1"
+                                     Color="#391b01"
+                                     Opacity="0.2"/>
+                            <Label Text="Data de Pagamento"
+                                   FontSize="14"
+                                   TextColor="#391b01"
+                                   Opacity="0.6"/>
+                            <Label x:Name="lblDataPagamento"
+                                   FontSize="16"
+                                   TextColor="#391b01"/>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- CARD DE ITENS -->
+                <Frame BackgroundColor="#efd4ac"
+                       CornerRadius="15"
+                       Padding="20"
+                       HasShadow="False">
+
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="Itens da Venda"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#391b01"/>
+
+                        <CollectionView x:Name="ListaItens"
+                                       SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White"
+                                           CornerRadius="10"
+                                           Padding="15"
+                                           Margin="0,0,0,10"
+                                           HasShadow="False">
+
+                                        <Grid RowDefinitions="Auto,Auto"
+                                              ColumnDefinitions="*,Auto"
+                                              RowSpacing="8">
+
+                                            <!-- Nome do Produto -->
+                                            <Label Grid.Row="0" Grid.Column="0"
+                                                   Text="{Binding NomeProduto}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#391b01"/>
+
+                                            <!-- Valor -->
+                                            <Label Grid.Row="0" Grid.Column="1"
+                                                   Text="{Binding ValorFormatado}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#391b01"
+                                                   HorizontalOptions="End"/>
+
+                                            <!-- Quantidade e Unidade -->
+                                            <Label Grid.Row="1" Grid.Column="0"
+                                                   FontSize="14"
+                                                   TextColor="#391b01"
+                                                   Opacity="0.7">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Quantidade}"/>
+                                                        <Span Text=" "/>
+                                                        <Span Text="{Binding Unidade}"/>
+                                                        <Span Text=" × R$ "/>
+                                                        <Span Text="{Binding ValorVenda, StringFormat='{0:N2}'}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                            <!-- Mensagem quando vazio -->
+                            <CollectionView.EmptyView>
+                                <ContentView>
+                                    <Label Text="Nenhum item encontrado"
+                                           FontSize="14"
+                                           TextColor="#391b01"
+                                           Opacity="0.6"
+                                           HorizontalTextAlignment="Center"
+                                           Margin="0,20"/>
+                                </ContentView>
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+
+                        <!-- Total de Itens -->
+                        <BoxView HeightRequest="1"
+                                 Color="#391b01"
+                                 Opacity="0.2"/>
+
+                        <Label x:Name="lblTotalItens"
+                               FontSize="14"
+                               TextColor="#391b01"
+                               Opacity="0.7"
+                               HorizontalTextAlignment="Center"/>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- CARD DE DESCRIÇÃO -->
+                <Frame BackgroundColor="#efd4ac"
+                       CornerRadius="15"
+                       Padding="20"
+                       HasShadow="False">
 
                     <VerticalStackLayout Spacing="10">
-
-                        <Label Text="Detalhes da Venda"
-                               FontFamily="GagalinRegular"
-                               FontSize="26"
+                        <Label Text="Descrição"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#391b01"/>
+                        <Label x:Name="lblDescricao"
+                               FontSize="14"
                                TextColor="#391b01"
-                               HorizontalOptions="Center"
-                               Margin="0,0,0,10"/>
-
-                        <Label FontFamily="GagalinRegular" FontSize="20" Text="Código:" TextColor="#391b01"/>
-                        <Label FontSize="18" Text="{Binding Id}"/>
-
-                        <Label FontFamily="GagalinRegular" FontSize="20" Text="Cliente:" TextColor="#391b01"/>
-                        <Label FontSize="18" Text="{Binding Cliente}"/>
-
-                        <Label FontFamily="GagalinRegular" FontSize="20" Text="Data:" TextColor="#391b01"/>
-                        <Label FontSize="18" Text="{Binding Data}"/>
-
-                        <Label FontFamily="GagalinRegular" FontSize="20" Text="Valor Total:" TextColor="#391b01"/>
-                        <Label FontSize="18" Text="{Binding ValorTotal, StringFormat='R$ {0:F2}'}"/>
-
+                               Opacity="0.8"/>
                     </VerticalStackLayout>
                 </Frame>
 
             </VerticalStackLayout>
         </ScrollView>
 
+        <!-- ===== BOTÕES DE AÇÃO ===== -->
+        <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,10,0,0">
+
+            <!-- Botão Marcar como Pago (só aparece se não estiver pago) -->
+            <Button x:Name="btnMarcarPago"
+                    Text="✓ MARCAR COMO PAGO"
+                    FontFamily="GagalinRegular"
+                    FontSize="16"
+                    BackgroundColor="#28a745"
+                    TextColor="White"
+                    CornerRadius="15"
+                    HeightRequest="50"
+                    IsVisible="False"
+                    Clicked="OnMarcarPagoClicked"/>
+
+        </VerticalStackLayout>
+
     </Grid>
+
+    <!-- ===== LOADING OVERLAY ===== -->
+    <Grid x:Name="LoadingOverlay"
+          IsVisible="False"
+          BackgroundColor="#80000000">
+        <Frame BackgroundColor="#efd4ac"
+               CornerRadius="20"
+               Padding="30"
+               WidthRequest="200"
+               HeightRequest="150"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               HasShadow="True">
+            <VerticalStackLayout Spacing="15"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True"
+                                 Color="#391b01"
+                                 WidthRequest="40"
+                                 HeightRequest="40"/>
+                <Label x:Name="lblLoadingText"
+                       Text="Processando..."
+                       FontSize="16"
+                       TextColor="#391b01"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+
 </ContentPage>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiAppArvoredo.Views.DetalhesVenda"
-             Title="Detalhes da Venda"
+             x:Class="MauiAppArvoredo.Views.Vendas"
+             Title="Vendas"
              Shell.NavBarIsVisible="False">
 
     <ContentPage.Background>
@@ -13,78 +13,285 @@
         </LinearGradientBrush>
     </ContentPage.Background>
 
-    <ScrollView Padding="20">
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Filtros -->
+            <RowDefinition Height="Auto"/>
+            <!-- Resumo -->
+            <RowDefinition Height="*"/>
+            <!-- Lista -->
+        </Grid.RowDefinitions>
 
-        <VerticalStackLayout Spacing="20">
+        <!-- ===== HEADER ===== -->
+        <Grid Grid.Row="0">
+            <ImageButton Source="seta.png"
+                        BackgroundColor="Transparent"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Clicked="OnVoltarClicked"/>
 
-            <Button Text="← Voltar"
-                    BackgroundColor="#391b01"
-                    TextColor="White"
-                    CornerRadius="15"
-                    Clicked="OnVoltarClicked"/>
+            <Label Text="VENDAS"
+                   FontFamily="GagalinRegular"
+                   FontSize="28"
+                   TextColor="#391b01"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
 
-            <Frame BackgroundColor="#efd4ac"
-                   Padding="20"
-                   CornerRadius="15">
+            <ImageButton Source="sincronizar_icon.png"
+                        BackgroundColor="Transparent"
+                        WidthRequest="35"
+                        HeightRequest="35"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Clicked="OnSincronizarClicked"/>
+        </Grid>
 
-                <Label Text="{Binding NomeCliente}"
-                       FontSize="26"
-                       FontAttributes="Bold"
-                       TextColor="#391b01"/>
+        <!-- ===== FILTROS ===== -->
+        <Frame Grid.Row="1"
+               BackgroundColor="#efd4ac"
+               CornerRadius="15"
+               Padding="15"
+               Margin="0,10"
+               HasShadow="False">
 
-                <Label Text="{Binding DataFormatada}"
+            <HorizontalStackLayout Spacing="10">
+                <Label Text="Filtrar:"
                        FontSize="16"
                        TextColor="#391b01"
-                       Opacity="0.6"/>
-
-                <Label Text="{Binding ValorFormatado}"
-                       FontSize="22"
-                       TextColor="#391b01"
                        FontAttributes="Bold"
-                       Margin="0,10,0,0"/>
-            </Frame>
+                       VerticalOptions="Center"/>
 
-            <Frame BackgroundColor="#efd4ac"
-                   Padding="20"
-                   CornerRadius="15">
+                <Button x:Name="btnTodas"
+                        Text="Todas"
+                        BackgroundColor="#391b01"
+                        TextColor="White"
+                        FontSize="12"
+                        CornerRadius="10"
+                        Padding="15,5"
+                        Clicked="OnFiltroTodasClicked"/>
 
-                <Label Text="Itens da Venda"
-                       FontSize="22"
-                       FontAttributes="Bold"
-                       TextColor="#391b01"
-                       Margin="0,0,0,10"/>
+                <Button x:Name="btnPendentes"
+                        Text="Pendentes"
+                        BackgroundColor="Transparent"
+                        TextColor="#391b01"
+                        FontSize="12"
+                        CornerRadius="10"
+                        BorderColor="#391b01"
+                        BorderWidth="1"
+                        Padding="15,5"
+                        Clicked="OnFiltroPendentesClicked"/>
 
-                <CollectionView ItemsSource="{Binding Itens}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions="2*,*,*" RowDefinitions="Auto" Padding="5">
+                <Button x:Name="btnPagas"
+                        Text="Pagas"
+                        BackgroundColor="Transparent"
+                        TextColor="#391b01"
+                        FontSize="12"
+                        CornerRadius="10"
+                        BorderColor="#391b01"
+                        BorderWidth="1"
+                        Padding="15,5"
+                        Clicked="OnFiltroPagasClicked"/>
+            </HorizontalStackLayout>
+        </Frame>
 
-                                <Label Grid.Column="0"
-                                       Text="{Binding NomeProduto}"
-                                       FontSize="16"
+        <!-- ===== RESUMO ===== -->
+        <Frame Grid.Row="2"
+               BackgroundColor="#efd4ac"
+               CornerRadius="15"
+               Padding="15"
+               Margin="0,0,0,10"
+               HasShadow="False">
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label x:Name="lblTotalVendas"
+                           Text="0"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="#391b01"
+                           HorizontalTextAlignment="Center"/>
+                    <Label Text="Total"
+                           FontSize="12"
+                           TextColor="#391b01"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+
+                <BoxView Grid.Column="1"
+                         Color="#391b01"
+                         WidthRequest="1"
+                         Opacity="0.3"
+                         HorizontalOptions="Start"/>
+
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label x:Name="lblValorTotal"
+                           Text="R$ 0,00"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="#391b01"
+                           HorizontalTextAlignment="Center"/>
+                    <Label Text="Valor Total"
+                           FontSize="12"
+                           TextColor="#391b01"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+
+                <BoxView Grid.Column="2"
+                         Color="#391b01"
+                         WidthRequest="1"
+                         Opacity="0.3"
+                         HorizontalOptions="Start"/>
+
+                <VerticalStackLayout Grid.Column="2" Spacing="5">
+                    <Label x:Name="lblVendasPendentes"
+                           Text="0"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="Orange"
+                           HorizontalTextAlignment="Center"/>
+                    <Label Text="Pendentes"
+                           FontSize="12"
+                           TextColor="#391b01"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Frame>
+
+        <!-- ===== LISTA DE VENDAS ===== -->
+        <ScrollView Grid.Row="3">
+            <CollectionView x:Name="ListaVendas"
+                           SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#efd4ac"
+                               CornerRadius="15"
+                               Padding="15"
+                               Margin="0,0,0,10"
+                               HasShadow="False">
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnVendaSelecionada"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+                                  ColumnDefinitions="*,Auto"
+                                  RowSpacing="8">
+
+                                <!-- Linha 1: Cliente e Status -->
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding NomeCliente}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
                                        TextColor="#391b01"/>
 
-                                <Label Grid.Column="1"
-                                       Text="{Binding Quantidade}"
+                                <Label Grid.Row="0" Grid.Column="1"
+                                       Text="{Binding StatusTexto}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="{Binding StatusColor}"
+                                       HorizontalOptions="End"/>
+
+                                <!-- Linha 2: Data e Valor -->
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       Text="{Binding DataFormatada}"
                                        FontSize="14"
                                        TextColor="#391b01"
-                                       HorizontalTextAlignment="Center"/>
+                                       Opacity="0.7"/>
 
-                                <Label Grid.Column="2"
-                                       Text="{Binding ValorTotal, StringFormat='R$ {0:N2}'}"
+                                <Label Grid.Row="1" Grid.Column="1"
+                                       Text="{Binding ValorFormatado}"
                                        FontSize="16"
+                                       FontAttributes="Bold"
                                        TextColor="#391b01"
                                        HorizontalOptions="End"/>
 
+                                <!-- Linha 3: Forma de Pagamento -->
+                                <Label Grid.Row="2" Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       FontSize="12"
+                                       TextColor="#391b01"
+                                       Opacity="0.6">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="💳 "/>
+                                            <Span Text="{Binding FormaPagamento}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <!-- Linha 4: Descrição -->
+                                <Label Grid.Row="3" Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Text="{Binding Descricao}"
+                                       FontSize="12"
+                                       TextColor="#391b01"
+                                       Opacity="0.5"
+                                       LineBreakMode="TailTruncation"/>
+
                             </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
-            </Frame>
+                <!-- Mensagem quando vazio -->
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <VerticalStackLayout VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           Padding="40">
+                            <Label Text="📦"
+                                   FontSize="60"
+                                   HorizontalTextAlignment="Center"/>
+                            <Label Text="Nenhuma venda encontrada"
+                                   FontSize="18"
+                                   TextColor="#391b01"
+                                   HorizontalTextAlignment="Center"
+                                   Margin="0,10,0,0"/>
+                            <Label x:Name="lblMensagemVazia"
+                                   Text="Sincronize para carregar vendas da API"
+                                   FontSize="14"
+                                   TextColor="#391b01"
+                                   Opacity="0.6"
+                                   HorizontalTextAlignment="Center"
+                                   Margin="0,5,0,0"/>
+                        </VerticalStackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </ScrollView>
 
-        </VerticalStackLayout>
+    </Grid>
 
-    </ScrollView>
+    <!-- ===== LOADING OVERLAY ===== -->
+    <Grid x:Name="LoadingOverlay"
+          IsVisible="False"
+          BackgroundColor="#80000000">
+        <Frame BackgroundColor="#efd4ac"
+               CornerRadius="20"
+               Padding="30"
+               WidthRequest="200"
+               HeightRequest="150"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               HasShadow="True">
+            <VerticalStackLayout Spacing="15"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True"
+                                 Color="#391b01"
+                                 WidthRequest="40"
+                                 HeightRequest="40"/>
+                <Label x:Name="lblLoadingText"
+                       Text="Carregando..."
+                       FontSize="16"
+                       TextColor="#391b01"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
 
 </ContentPage>
