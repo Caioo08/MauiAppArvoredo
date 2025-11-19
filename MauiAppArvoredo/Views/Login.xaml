@@ -38,7 +38,7 @@
 
             <!-- Campo de email -->
             <Entry x:Name="EmailEntry"
-                   Placeholder="Digite seu email"
+                   Placeholder="Digite seu login"
                    TextColor="Black"
                    HeightRequest="50"
                    WidthRequest="330"
@@ -102,7 +102,7 @@
                     CornerRadius="20"
                     HeightRequest="55"
                     WidthRequest="330"
-                    Clicked="OnRegisterClicked"/>
+                    Clicked="OnRegisterClicked" IsVisible="False"/>
 
         </VerticalStackLayout>
     </Grid>

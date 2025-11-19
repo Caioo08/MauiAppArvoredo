@@ -18,8 +18,10 @@ namespace MauiAppArvoredo
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // 🔹 REGISTRO DO SERVIÇO DA API ARVOREDO
+            // 🔹 REGISTRO DOS SERVIÇOS DA API
             builder.Services.AddSingleton<ApiClient>();
+            builder.Services.AddSingleton<UsuarioApiService>();
+            builder.Services.AddSingleton<VendaApiService>();
 
 #if DEBUG
             builder.Logging.AddDebug();
