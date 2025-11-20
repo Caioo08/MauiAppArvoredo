@@ -8,7 +8,7 @@ namespace MauiAppArvoredo.Views
     {
         private readonly VendaApiService _vendaService;
         private ObservableCollection<Venda> _todasVendas;
-        private string _filtroAtual = "todas"; // todas, pendentes, pagas
+        private string _filtroAtual = "pendentes"; // todas, pendentes, pagas
 
         public Vendas()
         {
@@ -190,8 +190,6 @@ namespace MauiAppArvoredo.Views
             double valorTotal = _todasVendas.Sum(v => v.ValorTotal);
             int vendasPendentes = _todasVendas.Count(v => !v.Pago);
 
-            lblTotalVendas.Text = totalVendas.ToString();
-            lblValorTotal.Text = $"R$ {valorTotal:N2}";
             lblVendasPendentes.Text = vendasPendentes.ToString();
         }
 

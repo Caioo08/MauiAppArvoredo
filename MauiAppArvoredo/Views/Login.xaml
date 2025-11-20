@@ -31,7 +31,7 @@
             <!-- Título estilizado -->
             <Label Text="LOGIN"
                    FontFamily="Gagalin-Regular"
-                   FontSize="40"
+                   FontSize="50"
                    HorizontalOptions="Center"
                    TextColor="#391b01"
                    Margin="0,0,0,10"/>
@@ -42,7 +42,8 @@
                    TextColor="Black"
                    HeightRequest="50"
                    WidthRequest="330"
-                   PlaceholderColor="Black">
+                   PlaceholderColor="Black"
+                   FontSize="20">
                 <Entry.BackgroundColor>
                     <OnPlatform x:TypeArguments="Color">
                         <On Platform="WinUI" Value="White"/>
@@ -50,7 +51,7 @@
                     </OnPlatform>
                 </Entry.BackgroundColor>
             </Entry>
-            <BoxView HeightRequest="2" WidthRequest="330">
+            <BoxView HeightRequest="2" WidthRequest="330" Margin="0,0,0,20">
                 <BoxView.BackgroundColor>
                     <OnPlatform x:TypeArguments="Color">
                         <On Platform="WinUI" Value="Transparent"/>
@@ -66,7 +67,8 @@
                    TextColor="Black"
                    PlaceholderColor="Black"
                    HeightRequest="50"
-                   WidthRequest="330">
+                   WidthRequest="330"
+                   FontSize="20">
                 <Entry.BackgroundColor>
                     <OnPlatform x:TypeArguments="Color">
                         <On Platform="WinUI" Value="White"/>

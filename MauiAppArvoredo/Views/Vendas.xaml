@@ -96,47 +96,13 @@
                Padding="15"
                Margin="0,0,0,10"
                HasShadow="False">
-            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
-                <VerticalStackLayout Grid.Column="0" Spacing="5">
-                    <Label x:Name="lblTotalVendas"
-                           Text="0"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="#391b01"
-                           HorizontalTextAlignment="Center"/>
-                    <Label Text="Total"
-                           FontSize="12"
-                           TextColor="#391b01"
-                           HorizontalTextAlignment="Center"/>
-                </VerticalStackLayout>
-                <BoxView Grid.Column="1"
-                         Color="#391b01"
-                         WidthRequest="1"
-                         Opacity="0.3"
-                         HorizontalOptions="Start"/>
-                <VerticalStackLayout Grid.Column="1" Spacing="5">
-                    <Label x:Name="lblValorTotal"
-                           Text="R$ 0,00"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="#391b01"
-                           HorizontalTextAlignment="Center"/>
-                    <Label Text="Valor Total"
-                           FontSize="12"
-                           TextColor="#391b01"
-                           HorizontalTextAlignment="Center"/>
-                </VerticalStackLayout>
-                <BoxView Grid.Column="2"
-                         Color="#391b01"
-                         WidthRequest="1"
-                         Opacity="0.3"
-                         HorizontalOptions="Start"/>
+            <Grid ColumnDefinitions="*" ColumnSpacing="10">
                 <VerticalStackLayout Grid.Column="2" Spacing="5">
                     <Label x:Name="lblVendasPendentes"
                            Text="0"
                            FontSize="24"
                            FontAttributes="Bold"
-                           TextColor="Orange"
+                           TextColor="Red"
                            HorizontalTextAlignment="Center"/>
                     <Label Text="Pendentes"
                            FontSize="12"
@@ -172,7 +138,7 @@
                                            Text="{Binding StatusTexto}"
                                            FontSize="14"
                                            FontAttributes="Bold"
-                                           TextColor="{Binding StatusColor}"
+                                           TextColor="Red"
                                            HorizontalOptions="End"/>
                                     <Label Grid.Row="1" Grid.Column="0"
                                            Text="{Binding DataFormatada}"
@@ -189,7 +155,8 @@
                                            Grid.ColumnSpan="2"
                                            FontSize="12"
                                            TextColor="#391b01"
-                                           Opacity="0.6">
+                                           Opacity="0.6"
+                                           >
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="💳 "/>
